@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Habilitalo - El protocolo abierto de Conectores para datos financieros</title>
-  <meta name="description" content="Habilitalo: El protocolo abierto de Conectores para datos financieros. Declara. Transforma. Emite.">
+  <title>Habilitalo — El protocolo abierto de conectores financieros</title>
+  <meta name="description" content="Habilitalo: El protocolo abierto de conectores para datos financieros. Declara. Transforma. Emite.">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Cpath d='M16 18v28M16 32h16M48 18v28M32 32h16' stroke='%23e8f040' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%2340f0a8'/%3E%3C/svg%3E">
-  <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Cpath d='M16 18v28M16 32h16M48 18v28M32 32h16' stroke='%23e8f040' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%2340f0a8'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230a0a0a'/%3E%3Cpath d='M45 50v80M45 90h45M135 50v80M90 90h45' stroke='%23e8f040' stroke-width='12' stroke-linecap='round'/%3E%3Ccircle cx='90' cy='90' r='10' fill='%2340f0a8'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121210'/%3E%3Cpath d='M16 18v28M16 32h16M48 18v28M32 32h16' stroke='%23e8f040' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%2340f0a8'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23121210'/%3E%3Cpath d='M45 50v80M45 90h45M135 50v80M90 90h45' stroke='%23e8f040' stroke-width='12' stroke-linecap='round'/%3E%3Ccircle cx='90' cy='90' r='10' fill='%2340f0a8'/%3E%3C/svg%3E">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -28,145 +27,53 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ========== RESET & BASE ========== */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* ========== RESET ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0a0a0a;
-      --bg-elevated: #111111;
-      --bg-card: #141414;
+      --bg: #121210;
+      --bg-card: #1a1a17;
       --accent: #e8f040;
       --accent2: #40f0a8;
-      --text: #e0e0e0;
-      --text-dim: #666666;
-      --text-muted: #444444;
-      --border: #1e1e1e;
-      --border-accent: #2a2a2a;
-      --font-display: 'Syne', sans-serif;
-      --font-mono: 'Space Mono', monospace;
+      --text: #f0efec;
+      --text-secondary: #c8c6c0;
+      --text-dim: #8a8780;
+      --text-muted: #555550;
+      --border: #2c2c29;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', Menlo, monospace;
     }
 
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg);
+      background: var(--bg);
       color: var(--text);
-      font-family: var(--font-mono);
-      line-height: 1.6;
-      overflow-x: hidden;
-      cursor: none;
-      position: relative;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ========== CUSTOM CURSOR ========== */
-    .cursor {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: white;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      mix-blend-mode: difference;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s ease, height 0.2s ease;
-    }
-
-    .cursor.hover {
-      width: 40px;
-      height: 40px;
-    }
-
-    @media (pointer: coarse) {
-      .cursor { display: none; }
-      body { cursor: auto; }
-    }
-
-    /* ========== GRID BACKGROUND ========== */
-    .grid-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent calc(60px - 1px),
-          rgba(255, 255, 255, 0.02) calc(60px - 1px),
-          rgba(255, 255, 255, 0.02) 60px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent calc(60px - 1px),
-          rgba(255, 255, 255, 0.02) calc(60px - 1px),
-          rgba(255, 255, 255, 0.02) 60px
-        );
-    }
-
-    /* ========== NOISE OVERLAY ========== */
-    .noise-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.035;
-    }
-
-    .noise-overlay::before {
-      content: '';
-      position: absolute;
-      inset: -200%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 256px 256px;
-    }
+    ::selection { background: var(--accent); color: var(--bg); }
 
     /* ========== LAYOUT ========== */
-    .content-wrapper {
-      position: relative;
-      z-index: 2;
-    }
-
     .container {
-      max-width: 1200px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 32px;
     }
 
-    section {
-      padding: 100px 0;
+    .container--wide {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
 
-    /* ========== ANIMATIONS ========== */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-in-delay-1 { transition-delay: 0.1s; }
-    .fade-in-delay-2 { transition-delay: 0.2s; }
-    .fade-in-delay-3 { transition-delay: 0.3s; }
-    .fade-in-delay-4 { transition-delay: 0.4s; }
-    .fade-in-delay-5 { transition-delay: 0.5s; }
+    section { padding: 96px 0; }
 
     /* ========== NAV ========== */
     nav {
@@ -175,626 +82,557 @@
       left: 0;
       right: 0;
       z-index: 100;
-      padding: 20px 0;
-      background: rgba(10, 10, 10, 0.8);
+      background: rgba(18, 18, 16, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
 
-    nav .container {
+    nav .container--wide {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 56px;
     }
 
     .nav-logo {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: var(--accent);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
       text-decoration: none;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.35px;
     }
+
+    .nav-logo .dot { color: var(--accent); }
 
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 8px;
       list-style: none;
     }
 
     .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: color 0.3s ease;
+      padding: 8px 10px;
+      transition: color 0.2s;
     }
 
-    .nav-links a:hover {
-      color: var(--accent);
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-github {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-github:hover { color: var(--text); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
     @media (max-width: 640px) {
-      .nav-links { gap: 16px; }
-      .nav-links a { font-size: 0.7rem; }
+      .nav-links { display: none; }
     }
 
     /* ========== HERO ========== */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 80px;
+      padding: 160px 0 80px;
     }
 
-    .hero-content {
-      max-width: 900px;
-    }
-
-    .hero-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 32px;
-      padding: 6px 16px;
-      border: 1px solid rgba(64, 240, 168, 0.2);
-      border-radius: 2px;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: block;
     }
 
     .hero h1 {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      color: #ffffff;
-      margin-bottom: 28px;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(36px, 5.5vw, 56px);
+      line-height: 1.12;
+      color: var(--text);
+      margin-bottom: 24px;
+      max-width: 720px;
     }
 
-    .hero h1 .accent-dot {
+    .hero h1 .accent {
       color: var(--accent);
     }
 
-    .hero-subtitle {
-      font-size: clamp(0.9rem, 2vw, 1.15rem);
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .hero-features {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-features span {
+      font-size: 13px;
       color: var(--text-dim);
-      max-width: 600px;
+    }
+
+    .hero-features span::before {
+      content: '\25C6';
+      margin-right: 8px;
+      font-size: 8px;
+      color: var(--accent);
+      vertical-align: 1px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .hero-cta svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 36px);
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--text-dim);
+      font-size: 15px;
+      max-width: 560px;
       line-height: 1.7;
       margin-bottom: 48px;
     }
 
-    .hero-ctas {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      text-decoration: none;
-      border: 1px solid;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-      letter-spacing: 0.02em;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-      border-color: var(--accent);
-    }
-
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--accent);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border-color: var(--border-accent);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
-    }
-
-    /* ========== STATS BAR ========== */
-    .stats {
+    /* ========== DIVIDER ========== */
+    .divider {
+      border: none;
       border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ========== STATS ========== */
+    .stats {
       padding: 48px 0;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      text-align: center;
-    }
-
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      gap: 24px;
     }
 
     .stat-value {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      color: #ffffff;
-      letter-spacing: -0.02em;
+      font-family: var(--font-serif);
+      font-size: 32px;
+      color: var(--text);
+      display: block;
+      margin-bottom: 4px;
     }
 
     .stat-label {
-      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
     }
 
     @media (max-width: 640px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 32px 16px;
-      }
-    }
-
-    /* ========== SECTION HEADINGS ========== */
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: clamp(2rem, 4vw, 3rem);
-      color: #ffffff;
-      letter-spacing: -0.02em;
-      margin-bottom: 60px;
-      line-height: 1.1;
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
     }
 
     /* ========== HOW IT WORKS ========== */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
+    .steps { display: flex; flex-direction: column; gap: 24px; }
 
-    .step-card {
+    .step {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 36px 28px;
-      transition: border-color 0.3s ease, transform 0.3s ease;
+      border-radius: 8px;
+      padding: 40px;
     }
 
-    .step-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-    }
-
-    .step-number {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 3rem;
-      color: var(--accent);
-      opacity: 0.3;
-      line-height: 1;
-      margin-bottom: 20px;
-    }
-
-    .step-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: #ffffff;
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
       margin-bottom: 12px;
     }
 
+    .step-num {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      color: var(--accent);
+      opacity: 0.4;
+      line-height: 1;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      color: var(--text);
+    }
+
     .step-desc {
-      font-size: 0.8rem;
       color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.7;
       margin-bottom: 24px;
-      line-height: 1.6;
+      max-width: 560px;
     }
 
     .step-code {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 16px;
+      border-radius: 6px;
+      padding: 20px 24px;
       overflow-x: auto;
-      font-size: 0.7rem;
-      line-height: 1.7;
-      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-secondary);
     }
 
-    .step-code .key { color: var(--accent2); }
-    .step-code .str { color: var(--accent); }
-    .step-code .kw { color: #c792ea; }
-    .step-code .fn { color: #82aaff; }
-    .step-code .type { color: var(--accent2); }
-    .step-code .comment { color: var(--text-muted); }
-
-    @media (max-width: 900px) {
-      .steps-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-    }
+    .step-code .k { color: var(--accent); }
+    .step-code .s { color: var(--accent2); }
+    .step-code .c { color: var(--text-muted); font-style: italic; }
+    .step-code .p { color: var(--text-dim); }
+    .step-code .t { color: #c8a0ff; }
+    .step-code .f { color: #82aaff; }
 
     /* ========== CONNECTORS ========== */
     .connectors-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 16px;
     }
 
-    .connector-card {
-      background: var(--bg-card);
+    .connector {
       border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 28px 24px;
-      transition: border-color 0.3s ease, transform 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      border-radius: 8px;
+      padding: 24px;
+      transition: border-color 0.2s;
     }
 
-    .connector-card:hover {
-      border-color: var(--accent2);
-      transform: translateY(-2px);
-    }
+    .connector:hover { border-color: var(--text-muted); }
 
-    .connector-card.dimmed {
-      opacity: 0.4;
-    }
+    .connector--dim { opacity: 0.35; }
+    .connector--dim:hover { opacity: 0.5; }
 
-    .connector-card.dimmed:hover {
-      opacity: 0.6;
-      border-color: var(--border-accent);
-      transform: none;
-    }
-
-    .connector-status {
-      display: inline-block;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
+    .connector-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 2px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      display: inline-block;
     }
 
-    .connector-status.active {
-      background: rgba(64, 240, 168, 0.1);
-      color: var(--accent2);
-      border: 1px solid rgba(64, 240, 168, 0.2);
-    }
-
-    .connector-status.coming {
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
+    .connector-badge--active { color: var(--accent2); }
+    .connector-badge--soon { color: var(--text-muted); }
 
     .connector-name {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #ffffff;
-      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
     }
 
-    .connector-tags {
-      font-size: 0.7rem;
+    .connector-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--text-muted);
     }
 
     @media (max-width: 768px) {
-      .connectors-grid {
-        grid-template-columns: 1fr;
-      }
+      .connectors-grid { grid-template-columns: 1fr; }
     }
 
-    /* ========== CODE EXAMPLE ========== */
-    .code-section {
-      background: var(--bg-elevated);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    /* ========== CODE SECTION ========== */
+    .code-file {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
     }
 
-    .code-block-wrapper {
-      position: relative;
-    }
-
-    .code-block-header {
+    .code-file-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 14px 20px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      border-radius: 4px 4px 0 0;
-    }
-
-    .code-block-filename {
-      font-size: 0.75rem;
-      color: var(--accent);
-    }
-
-    .code-block-lang {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .code-block {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 0 0 4px 4px;
-      padding: 24px;
-      overflow-x: auto;
-      font-size: 0.78rem;
-      line-height: 1.8;
-      tab-size: 2;
-      color: var(--text-dim);
-    }
-
-    .code-block .comment { color: var(--text-muted); font-style: italic; }
-    .code-block .kw { color: #c792ea; }
-    .code-block .fn { color: #82aaff; }
-    .code-block .str { color: var(--accent); }
-    .code-block .type { color: var(--accent2); }
-    .code-block .prop { color: #f78c6c; }
-    .code-block .var { color: var(--text); }
-    .code-block .punc { color: var(--text-dim); }
-
-    /* ========== STACK DIAGRAM ========== */
-    .stack-flow {
-      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0;
-      flex-wrap: wrap;
-      padding: 20px 0;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
     }
 
-    .stack-node {
-      text-align: center;
-      padding: 20px 24px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      min-width: 140px;
-      transition: border-color 0.3s ease;
-    }
-
-    .stack-node:hover {
-      border-color: var(--accent);
-    }
-
-    .stack-node.highlight {
-      border-color: var(--accent);
-      background: rgba(232, 240, 64, 0.03);
-    }
-
-    .stack-node-name {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-
-    .stack-node.highlight .stack-node-name {
+    .code-file-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
       color: var(--accent);
     }
 
-    .stack-node-role {
-      font-size: 0.65rem;
+    .code-file-lang {
+      font-family: var(--font-mono);
+      font-size: 10px;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
 
-    .stack-arrow {
+    .code-file pre {
+      padding: 24px;
+      overflow-x: auto;
       font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    /* ========== STACK ========== */
+    .stack-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .stack-item {
+      text-align: center;
+      padding: 20px 28px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      min-width: 140px;
+      transition: border-color 0.2s;
+    }
+
+    .stack-item:hover { border-color: var(--text-muted); }
+
+    .stack-item--active {
+      border-color: var(--accent);
+      background: rgba(232, 240, 64, 0.04);
+    }
+
+    .stack-item-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .stack-item--active .stack-item-name { color: var(--accent); }
+
+    .stack-item-role {
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--text-muted);
-      font-size: 1.2rem;
-      padding: 0 12px;
+    }
+
+    .stack-arrow {
+      color: var(--text-muted);
+      font-size: 18px;
+      padding: 0 14px;
       user-select: none;
     }
 
     @media (max-width: 900px) {
-      .stack-flow {
-        flex-direction: column;
-        gap: 0;
-      }
-      .stack-arrow {
-        transform: rotate(90deg);
-        padding: 8px 0;
-      }
-      .stack-node {
-        width: 100%;
-        max-width: 280px;
-      }
+      .stack-row { flex-direction: column; }
+      .stack-arrow { transform: rotate(90deg); padding: 8px 0; }
+      .stack-item { width: 100%; max-width: 260px; }
     }
 
-    /* ========== CTA FOOTER ========== */
-    .cta-footer {
+    /* ========== CTA ========== */
+    .cta {
       text-align: center;
-      padding: 120px 0 60px;
+      padding: 120px 0 80px;
     }
 
-    .cta-footer h2 {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      color: #ffffff;
-      letter-spacing: -0.03em;
-      margin-bottom: 16px;
+    .cta h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 40px);
+      color: var(--text);
+      margin-bottom: 12px;
     }
 
-    .cta-footer h2 .accent-dot {
-      color: var(--accent2);
-    }
-
-    .cta-footer p {
-      font-size: 0.9rem;
+    .cta p {
       color: var(--text-dim);
-      margin-bottom: 40px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.7;
-    }
-
-    .cta-footer .btn {
-      font-size: 0.9rem;
-      padding: 16px 36px;
+      font-size: 15px;
+      margin-bottom: 36px;
     }
 
     /* ========== FOOTER ========== */
     footer {
       border-top: 1px solid var(--border);
-      padding: 40px 0;
-      text-align: center;
+      padding: 32px 0;
     }
 
-    .footer-text {
-      font-size: 0.7rem;
+    footer .container--wide {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left {
+      font-family: var(--font-mono);
+      font-size: 12px;
       color: var(--text-muted);
-      letter-spacing: 0.05em;
     }
 
-    .footer-divider {
-      width: 40px;
-      height: 1px;
-      background: var(--border-accent);
-      margin: 16px auto;
+    .footer-right {
+      display: flex;
+      gap: 24px;
     }
 
-    .footer-brand {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+    .footer-right a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
     }
 
-    /* ========== SELECTION ========== */
-    ::selection {
-      background: var(--accent);
-      color: var(--bg);
+    .footer-right a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      footer .container--wide { flex-direction: column; gap: 16px; text-align: center; }
     }
+
+    /* ========== ANIMATIONS ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    .reveal-d3 { transition-delay: 0.24s; }
 
     /* ========== SCROLLBAR ========== */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-accent);
-      border-radius: 3px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
-    }
-
-    /* ========== LINK UNDERLINE ========== */
-    a {
-      cursor: none;
-    }
-
-    button {
-      cursor: none;
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
   </style>
 </head>
 <body>
 
-  <!-- Custom cursor -->
-  <div class="cursor" id="cursor"></div>
-
-  <!-- Grid background -->
-  <div class="grid-bg"></div>
-
-  <!-- Noise overlay -->
-  <div class="noise-overlay"></div>
-
-  <!-- Content -->
-  <div class="content-wrapper">
-
-    <!-- Navigation -->
-    <nav>
-      <div class="container">
-        <a href="https://habilitalo.com" class="nav-logo">habilitalo_</a>
+  <!-- Nav -->
+  <nav>
+    <div class="container--wide">
+      <a href="https://habilitalo.com" class="nav-logo">habilitalo<span class="dot">.com</span></a>
+      <div class="nav-right">
         <ul class="nav-links">
-          <li><a href="#how-it-works">C&oacute;mo</a></li>
+          <li><a href="#protocol">Protocolo</a></li>
           <li><a href="#connectors">Conectores</a></li>
           <li><a href="#code">C&oacute;digo</a></li>
           <li><a href="#stack">Stack</a></li>
         </ul>
+        <a href="https://github.com/habilitalo/protocol" class="nav-github" aria-label="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
       </div>
-    </nav>
+    </div>
+  </nav>
+
+  <main>
 
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <div class="hero-content">
-          <span class="hero-tag fade-in">Protocolo Abierto v0.1</span>
-          <h1 class="fade-in fade-in-delay-1">Habilitalo todo<span class="accent-dot">.</span></h1>
-          <p class="hero-subtitle fade-in fade-in-delay-2">
-            El protocolo abierto de Conectores para datos financieros.<br>
-            Declara. Transforma. Emite.
-          </p>
-          <div class="hero-ctas fade-in fade-in-delay-3">
-            <a href="whitepaper.md" class="btn btn-primary">Leer el Whitepaper</a>
-            <a href="https://github.com/habilitalo/protocol" class="btn btn-secondary">GitHub &rarr;</a>
-          </div>
+        <span class="hero-label reveal">El protocolo abierto de conectores financieros</span>
+        <h1 class="reveal reveal-d1">
+          Cualquier fuente de datos puede conectarse.<br>
+          <span class="accent">Cualquier agente puede consumirla.</span>
+        </h1>
+        <p class="hero-desc reveal reveal-d2">
+          El protocolo abierto que integra datos financieros de cualquier origen &mdash;
+          para humanos y para agentes AI.
+        </p>
+        <div class="hero-features reveal reveal-d2">
+          <span>Protocolo abierto</span>
+          <span>Legible por m&aacute;quinas</span>
+          <span>Dise&ntilde;ado para humanos</span>
         </div>
+        <a href="whitepaper.md" class="hero-cta reveal reveal-d3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Leer el whitepaper
+        </a>
       </div>
     </section>
 
-    <!-- Stats Bar -->
+    <hr class="divider">
+
+    <!-- Stats -->
     <section class="stats" id="stats">
       <div class="container">
         <div class="stats-grid">
-          <div class="stat-item fade-in">
+          <div class="reveal">
             <span class="stat-value">24</span>
             <span class="stat-label">Archivos</span>
           </div>
-          <div class="stat-item fade-in fade-in-delay-1">
+          <div class="reveal reveal-d1">
             <span class="stat-value">5.500</span>
             <span class="stat-label">L&iacute;neas de c&oacute;digo</span>
           </div>
-          <div class="stat-item fade-in fade-in-delay-2">
+          <div class="reveal reveal-d2">
             <span class="stat-value">3</span>
             <span class="stat-label">Conectores</span>
           </div>
-          <div class="stat-item fade-in fade-in-delay-3">
+          <div class="reveal reveal-d3">
             <span class="stat-value">MIT</span>
             <span class="stat-label">Licencia</span>
           </div>
@@ -802,255 +640,233 @@
       </div>
     </section>
 
-    <!-- How It Works -->
-    <section id="how-it-works">
-      <div class="container">
-        <span class="section-label fade-in">Protocolo</span>
-        <h2 class="section-title fade-in fade-in-delay-1">C&oacute;mo funciona</h2>
-        <div class="steps-grid">
+    <hr class="divider">
 
+    <!-- Protocol / How it works -->
+    <section id="protocol">
+      <div class="container">
+        <span class="section-tag reveal">01 &mdash; Protocolo</span>
+        <h2 class="section-title reveal reveal-d1">&iquest;C&oacute;mo funciona?</h2>
+        <p class="section-desc reveal reveal-d2">
+          Declara. Transforma. Emite. Tres pasos para conectar cualquier fuente de datos financieros al ecosistema.
+        </p>
+
+        <div class="steps">
           <!-- Step 1 -->
-          <div class="step-card fade-in fade-in-delay-2">
-            <div class="step-number">01</div>
-            <h3 class="step-title">Declara tu Conector</h3>
+          <div class="step reveal">
+            <div class="step-header">
+              <span class="step-num">01</span>
+              <h3 class="step-title">Declara tu conector</h3>
+            </div>
             <p class="step-desc">Define un manifiesto que describe tu fuente de datos, m&eacute;todo de autenticaci&oacute;n y tipos de evento.</p>
             <div class="step-code">
-<pre><span class="punc">{</span>
-  <span class="key">"id"</span>: <span class="str">"fintoc-v1"</span>,
-  <span class="key">"name"</span>: <span class="str">"Fintoc Open Banking"</span>,
-  <span class="key">"version"</span>: <span class="str">"1.0.0"</span>,
-  <span class="key">"auth"</span>: <span class="str">"api_key"</span>,
-  <span class="key">"events"</span>: <span class="punc">[</span>
-    <span class="str">"bank.movement.created"</span>,
-    <span class="str">"bank.account.synced"</span>
-  <span class="punc">]</span>
-<span class="punc">}</span></pre>
+<pre><span class="p">{</span>
+  <span class="k">"id"</span>: <span class="s">"fintoc-v1"</span>,
+  <span class="k">"name"</span>: <span class="s">"Fintoc Open Banking"</span>,
+  <span class="k">"version"</span>: <span class="s">"1.0.0"</span>,
+  <span class="k">"auth"</span>: <span class="s">"api_key"</span>,
+  <span class="k">"events"</span>: <span class="p">[</span>
+    <span class="s">"bank.movement.created"</span>,
+    <span class="s">"bank.account.synced"</span>
+  <span class="p">]</span>
+<span class="p">}</span></pre>
             </div>
           </div>
 
           <!-- Step 2 -->
-          <div class="step-card fade-in fade-in-delay-3">
-            <div class="step-number">02</div>
-            <h3 class="step-title">Transforma los datos crudos</h3>
+          <div class="step reveal">
+            <div class="step-header">
+              <span class="step-num">02</span>
+              <h3 class="step-title">Transforma los datos crudos</h3>
+            </div>
             <p class="step-desc">Escribe una funci&oacute;n pura que mapea datos del proveedor a eventos can&oacute;nicos.</p>
             <div class="step-code">
-<pre><span class="kw">const</span> <span class="fn">transform</span> <span class="punc">=</span> <span class="punc">(</span><span class="var">raw</span>, <span class="var">ctx</span><span class="punc">)</span> <span class="punc">=&gt;</span> <span class="punc">({</span>
-  <span class="key">type</span>: <span class="str">'bank.movement.created'</span>,
-  <span class="key">payload</span>: <span class="punc">{</span>
-    <span class="key">amount</span>: <span class="var">raw</span>.<span class="prop">amount</span>,
-    <span class="key">currency</span>: <span class="fn">mapCurrency</span><span class="punc">(</span><span class="var">raw</span><span class="punc">)</span>,
-    <span class="key">date</span>: <span class="var">raw</span>.<span class="prop">post_date</span>,
-  <span class="punc">}</span>,
-<span class="punc">})</span></pre>
+<pre><span class="t">const</span> <span class="f">transform</span> <span class="p">=</span> <span class="p">(</span>raw, ctx<span class="p">)</span> <span class="p">=&gt;</span> <span class="p">({</span>
+  <span class="k">type</span>: <span class="s">'bank.movement.created'</span>,
+  <span class="k">payload</span>: <span class="p">{</span>
+    <span class="k">amount</span>: raw.amount,
+    <span class="k">currency</span>: <span class="f">mapCurrency</span><span class="p">(</span>raw<span class="p">)</span>,
+    <span class="k">date</span>: raw.post_date,
+  <span class="p">}</span>,
+<span class="p">})</span></pre>
             </div>
           </div>
 
           <!-- Step 3 -->
-          <div class="step-card fade-in fade-in-delay-4">
-            <div class="step-number">03</div>
-            <h3 class="step-title">Emite Eventos Can&oacute;nicos</h3>
+          <div class="step reveal">
+            <div class="step-header">
+              <span class="step-num">03</span>
+              <h3 class="step-title">Emite eventos can&oacute;nicos</h3>
+            </div>
             <p class="step-desc">Los eventos fluyen por el pipeline hacia Balancealo y el ecosistema Digitalo.</p>
             <div class="step-code">
-<pre><span class="kw">interface</span> <span class="type">CanonicalEvent</span> <span class="punc">{</span>
-  <span class="key">id</span>: <span class="type">string</span>
-  <span class="key">timestamp</span>: <span class="type">string</span>
-  <span class="key">source</span>: <span class="str">'habilitalo'</span>
-  <span class="key">type</span>: <span class="type">string</span>
-  <span class="key">version</span>: <span class="type">string</span>
-  <span class="key">payload</span>: <span class="type">Record</span><span class="punc">&lt;</span><span class="type">string</span>, <span class="type">unknown</span><span class="punc">&gt;</span>
-  <span class="key">meta</span>: <span class="type">EventMeta</span>
-<span class="punc">}</span></pre>
+<pre><span class="t">interface</span> <span class="f">CanonicalEvent</span> <span class="p">{</span>
+  <span class="k">id</span>: string
+  <span class="k">timestamp</span>: string
+  <span class="k">source</span>: <span class="s">'habilitalo'</span>
+  <span class="k">type</span>: string
+  <span class="k">version</span>: string
+  <span class="k">payload</span>: Record<span class="p">&lt;</span>string, unknown<span class="p">&gt;</span>
+  <span class="k">meta</span>: EventMeta
+<span class="p">}</span></pre>
             </div>
           </div>
-
         </div>
       </div>
     </section>
+
+    <hr class="divider">
 
     <!-- Connectors -->
     <section id="connectors">
       <div class="container">
-        <span class="section-label fade-in">Ecosistema</span>
-        <h2 class="section-title fade-in fade-in-delay-1">Conectores</h2>
+        <span class="section-tag reveal">02 &mdash; Ecosistema</span>
+        <h2 class="section-title reveal reveal-d1">Conectores</h2>
+        <p class="section-desc reveal reveal-d2">
+          Cada conector integra una fuente de datos financieros al protocolo. Activos hoy, o en camino.
+        </p>
+
         <div class="connectors-grid">
-
-          <div class="connector-card fade-in fade-in-delay-1">
-            <span class="connector-status active">Activo</span>
-            <h3 class="connector-name">Fintoc Open Banking</h3>
-            <p class="connector-tags">banking, chile, latam</p>
+          <div class="connector reveal">
+            <span class="connector-badge connector-badge--active">Activo</span>
+            <div class="connector-name">Fintoc Open Banking</div>
+            <div class="connector-meta">banking &middot; chile &middot; latam</div>
           </div>
-
-          <div class="connector-card fade-in fade-in-delay-2">
-            <span class="connector-status active">Activo</span>
-            <h3 class="connector-name">Importaci&oacute;n CSV</h3>
-            <p class="connector-tags">csv, archivo, importaci&oacute;n</p>
+          <div class="connector reveal reveal-d1">
+            <span class="connector-badge connector-badge--active">Activo</span>
+            <div class="connector-name">Importaci&oacute;n CSV</div>
+            <div class="connector-meta">csv &middot; archivo &middot; importaci&oacute;n</div>
           </div>
-
-          <div class="connector-card fade-in fade-in-delay-3">
-            <span class="connector-status active">Activo</span>
-            <h3 class="connector-name">Entrada Manual</h3>
-            <p class="connector-tags">manual, entrada, formulario</p>
+          <div class="connector reveal reveal-d2">
+            <span class="connector-badge connector-badge--active">Activo</span>
+            <div class="connector-name">Entrada Manual</div>
+            <div class="connector-meta">manual &middot; formulario</div>
           </div>
-
-          <div class="connector-card dimmed fade-in fade-in-delay-2">
-            <span class="connector-status coming">Pr&oacute;ximamente</span>
-            <h3 class="connector-name">SAT Mexico</h3>
-            <p class="connector-tags">impuestos, m&eacute;xico</p>
+          <div class="connector connector--dim reveal">
+            <span class="connector-badge connector-badge--soon">Pr&oacute;ximamente</span>
+            <div class="connector-name">SAT M&eacute;xico</div>
+            <div class="connector-meta">impuestos &middot; m&eacute;xico</div>
           </div>
-
-          <div class="connector-card dimmed fade-in fade-in-delay-3">
-            <span class="connector-status coming">Pr&oacute;ximamente</span>
-            <h3 class="connector-name">Stripe</h3>
-            <p class="connector-tags">pagos, global</p>
+          <div class="connector connector--dim reveal reveal-d1">
+            <span class="connector-badge connector-badge--soon">Pr&oacute;ximamente</span>
+            <div class="connector-name">Stripe</div>
+            <div class="connector-meta">pagos &middot; global</div>
           </div>
-
-          <div class="connector-card dimmed fade-in fade-in-delay-4">
-            <span class="connector-status coming">Pr&oacute;ximamente</span>
-            <h3 class="connector-name">QuickBooks</h3>
-            <p class="connector-tags">contabilidad, usa</p>
+          <div class="connector connector--dim reveal reveal-d2">
+            <span class="connector-badge connector-badge--soon">Pr&oacute;ximamente</span>
+            <div class="connector-name">QuickBooks</div>
+            <div class="connector-meta">contabilidad &middot; usa</div>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- Code Example -->
-    <section class="code-section" id="code">
+    <hr class="divider">
+
+    <!-- Code -->
+    <section id="code">
       <div class="container">
-        <span class="section-label fade-in">C&oacute;digo real</span>
-        <h2 class="section-title fade-in fade-in-delay-1">Transform de Fintoc</h2>
-        <div class="code-block-wrapper fade-in fade-in-delay-2">
-          <div class="code-block-header">
-            <span class="code-block-filename">fintoc.connector.ts</span>
-            <span class="code-block-lang">TypeScript</span>
+        <span class="section-tag reveal">03 &mdash; C&oacute;digo real</span>
+        <h2 class="section-title reveal reveal-d1">Transform de Fintoc</h2>
+        <p class="section-desc reveal reveal-d2">
+          As&iacute; se ve un conector real. Una funci&oacute;n pura que transforma datos crudos del banco en eventos can&oacute;nicos.
+        </p>
+
+        <div class="code-file reveal reveal-d3">
+          <div class="code-file-header">
+            <span class="code-file-name">fintoc.connector.ts</span>
+            <span class="code-file-lang">TypeScript</span>
           </div>
-          <div class="code-block">
-<pre><span class="comment">// fintoc.connector.ts &mdash; Transform bank movements</span>
-<span class="kw">const</span> <span class="var">transform</span>: <span class="type">HabilitaloTransform</span> <span class="punc">=</span> <span class="punc">(</span><span class="var">raw</span>, <span class="var">ctx</span><span class="punc">)</span> <span class="punc">=&gt;</span> <span class="punc">({</span>
-  <span class="prop">id</span>: crypto.<span class="fn">randomUUID</span><span class="punc">(),</span>
-  <span class="prop">timestamp</span>: <span class="kw">new</span> <span class="type">Date</span><span class="punc">().</span><span class="fn">toISOString</span><span class="punc">(),</span>
-  <span class="prop">source</span>: <span class="str">'habilitalo'</span><span class="punc">,</span>
-  <span class="prop">type</span>: <span class="str">'bank.movement.created'</span><span class="punc">,</span>
-  <span class="prop">version</span>: <span class="str">'1.0.0'</span><span class="punc">,</span>
-  <span class="prop">payload</span>: <span class="punc">{</span>
-    <span class="prop">amount</span>: <span class="var">raw</span>.<span class="prop">amount</span><span class="punc">,</span>
-    <span class="prop">currency</span>: <span class="fn">mapCurrency</span><span class="punc">(</span><span class="var">raw</span>.<span class="prop">currency</span><span class="punc">),</span>
-    <span class="prop">description</span>: <span class="var">raw</span>.<span class="prop">description</span><span class="punc">,</span>
-    <span class="prop">counterparty</span>: <span class="var">raw</span>.<span class="prop">sender_account</span><span class="punc">?.</span><span class="prop">holder_name</span><span class="punc">,</span>
-    <span class="prop">date</span>: <span class="var">raw</span>.<span class="prop">post_date</span><span class="punc">,</span>
-  <span class="punc">},</span>
-  <span class="prop">meta</span>: <span class="punc">{</span>
-    <span class="prop">connector</span>: <span class="str">'fintoc-v1'</span><span class="punc">,</span>
-    <span class="prop">tenant</span>: <span class="var">ctx</span>.<span class="prop">tenantId</span><span class="punc">,</span>
-    <span class="prop">trace_id</span>: <span class="var">ctx</span>.<span class="prop">traceId</span><span class="punc">,</span>
-  <span class="punc">},</span>
-<span class="punc">})</span></pre>
-          </div>
+<pre><span class="c">// fintoc.connector.ts &mdash; Transform bank movements</span>
+<span class="t">const</span> transform: <span class="f">HabilitaloTransform</span> <span class="p">=</span> <span class="p">(</span>raw, ctx<span class="p">)</span> <span class="p">=&gt;</span> <span class="p">({</span>
+  <span class="k">id</span>: crypto.<span class="f">randomUUID</span><span class="p">(),</span>
+  <span class="k">timestamp</span>: <span class="t">new</span> <span class="f">Date</span><span class="p">().</span><span class="f">toISOString</span><span class="p">(),</span>
+  <span class="k">source</span>: <span class="s">'habilitalo'</span><span class="p">,</span>
+  <span class="k">type</span>: <span class="s">'bank.movement.created'</span><span class="p">,</span>
+  <span class="k">version</span>: <span class="s">'1.0.0'</span><span class="p">,</span>
+  <span class="k">payload</span>: <span class="p">{</span>
+    <span class="k">amount</span>: raw.amount<span class="p">,</span>
+    <span class="k">currency</span>: <span class="f">mapCurrency</span><span class="p">(</span>raw.currency<span class="p">),</span>
+    <span class="k">description</span>: raw.description<span class="p">,</span>
+    <span class="k">counterparty</span>: raw.sender_account<span class="p">?.</span>holder_name<span class="p">,</span>
+    <span class="k">date</span>: raw.post_date<span class="p">,</span>
+  <span class="p">},</span>
+  <span class="k">meta</span>: <span class="p">{</span>
+    <span class="k">connector</span>: <span class="s">'fintoc-v1'</span><span class="p">,</span>
+    <span class="k">tenant</span>: ctx.tenantId<span class="p">,</span>
+    <span class="k">trace_id</span>: ctx.traceId<span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span></pre>
         </div>
       </div>
     </section>
 
-    <!-- Stack Diagram -->
+    <hr class="divider">
+
+    <!-- Stack -->
     <section id="stack">
       <div class="container">
-        <span class="section-label fade-in">Arquitectura</span>
-        <h2 class="section-title fade-in fade-in-delay-1">El Stack Digitalo</h2>
-        <div class="stack-flow fade-in fade-in-delay-2">
-          <div class="stack-node">
-            <div class="stack-node-name">External World</div>
-            <div class="stack-node-role">Bancos &middot; APIs</div>
+        <span class="section-tag reveal">04 &mdash; Arquitectura</span>
+        <h2 class="section-title reveal reveal-d1">El stack Digitalo</h2>
+        <p class="section-desc reveal reveal-d2">
+          Habilitalo es la capa de observabilidad financiera del ecosistema. Conecta el mundo externo con el resto del stack.
+        </p>
+
+        <div class="stack-row reveal reveal-d3">
+          <div class="stack-item">
+            <div class="stack-item-name">External World</div>
+            <div class="stack-item-role">Bancos &middot; APIs</div>
           </div>
           <span class="stack-arrow">&rarr;</span>
-          <div class="stack-node highlight">
-            <div class="stack-node-name">HABILITALO</div>
-            <div class="stack-node-role">Observa</div>
+          <div class="stack-item stack-item--active">
+            <div class="stack-item-name">HABILITALO</div>
+            <div class="stack-item-role">Observa</div>
           </div>
           <span class="stack-arrow">&rarr;</span>
-          <div class="stack-node">
-            <div class="stack-node-name">Servicialo</div>
-            <div class="stack-node-role">Ejecuta</div>
+          <div class="stack-item">
+            <div class="stack-item-name">Servicialo</div>
+            <div class="stack-item-role">Ejecuta</div>
           </div>
           <span class="stack-arrow">&rarr;</span>
-          <div class="stack-node">
-            <div class="stack-node-name">Compensalo</div>
-            <div class="stack-node-role">Paga</div>
+          <div class="stack-item">
+            <div class="stack-item-name">Compensalo</div>
+            <div class="stack-item-role">Paga</div>
           </div>
           <span class="stack-arrow">&rarr;</span>
-          <div class="stack-node">
-            <div class="stack-node-name">Coordinalo</div>
-            <div class="stack-node-role">Agenda</div>
+          <div class="stack-item">
+            <div class="stack-item-name">Coordinalo</div>
+            <div class="stack-item-role">Agenda</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Footer -->
-    <section class="cta-footer">
+    <!-- CTA -->
+    <section class="cta">
       <div class="container">
-        <h2 class="fade-in">Publica tu Connector<span class="accent-dot">.</span></h2>
-        <p class="fade-in fade-in-delay-1">
-          Escribe un transform. Declara un manifiesto. Abre un PR.
-        </p>
-        <a href="https://github.com/habilitalo/connectors" class="btn btn-primary fade-in fade-in-delay-2">Empieza a construir &rarr;</a>
+        <h2 class="reveal">Publica tu conector.</h2>
+        <p class="reveal reveal-d1">Escribe un transform. Declara un manifiesto. Abre un PR.</p>
+        <a href="https://github.com/habilitalo/connectors" class="hero-cta reveal reveal-d2">Empieza a construir &rarr;</a>
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <p class="footer-text">Franco Danioni &mdash; Digitalo SpA &mdash; habilitalo.com</p>
-        <div class="footer-divider"></div>
-        <p class="footer-brand">Construido con obsesi&oacute;n, no con frameworks</p>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container--wide">
+      <span class="footer-left">habilitalo.com</span>
+      <div class="footer-right">
+        <a href="whitepaper.md">Whitepaper</a>
+        <a href="https://github.com/habilitalo">GitHub</a>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-  </div>
-
-  <!-- Scripts -->
   <script>
-    // ========== CUSTOM CURSOR ==========
+    // Intersection Observer for reveals
     (function() {
-      const cursor = document.getElementById('cursor');
-      if (!cursor) return;
-
-      let mouseX = -100;
-      let mouseY = -100;
-      let cursorX = -100;
-      let cursorY = -100;
-
-      document.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-
-      // Smooth cursor follow
-      function animateCursor() {
-        const dx = mouseX - cursorX;
-        const dy = mouseY - cursorY;
-        cursorX += dx * 0.15;
-        cursorY += dy * 0.15;
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        requestAnimationFrame(animateCursor);
-      }
-      animateCursor();
-
-      // Hover effect on interactive elements
-      var interactiveElements = document.querySelectorAll('a, button, .connector-card, .step-card, .stack-node');
-      interactiveElements.forEach(function(el) {
-        el.addEventListener('mouseenter', function() {
-          cursor.classList.add('hover');
-        });
-        el.addEventListener('mouseleave', function() {
-          cursor.classList.remove('hover');
-        });
-      });
-    })();
-
-    // ========== INTERSECTION OBSERVER (FADE IN) ==========
-    (function() {
-      var fadeElements = document.querySelectorAll('.fade-in');
-
+      var els = document.querySelectorAll('.reveal');
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
@@ -1058,14 +874,8 @@
             observer.unobserve(entry.target);
           }
         });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px'
-      });
-
-      fadeElements.forEach(function(el) {
-        observer.observe(el);
-      });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el) { observer.observe(el); });
     })();
   </script>
 
