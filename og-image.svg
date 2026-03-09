@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e1e1e" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+
+  <!-- Accent line top -->
+  <rect x="0" y="0" width="1200" height="3" fill="#e8f040"/>
+
+  <!-- Icon: stylized H with connector dot -->
+  <g transform="translate(100, 200)">
+    <path d="M0 0v160M0 80h80M160 0v160M80 80h80" stroke="#e8f040" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <circle cx="80" cy="80" r="12" fill="#40f0a8"/>
+  </g>
+
+  <!-- Title -->
+  <text x="340" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="800" fill="#e0e0e0" letter-spacing="-2">habilitalo</text>
+
+  <!-- Subtitle -->
+  <text x="340" y="330" font-family="monospace" font-size="24" fill="#666666">Protocolo Abierto de Conectores Financieros</text>
+
+  <!-- Tagline -->
+  <text x="340" y="380" font-family="monospace" font-size="20" fill="#e8f040">Declara.</text>
+  <text x="478" y="380" font-family="monospace" font-size="20" fill="#40f0a8">Transforma.</text>
+  <text x="660" y="380" font-family="monospace" font-size="20" fill="#e8f040">Emite.</text>
+
+  <!-- Version badge -->
+  <rect x="100" y="470" width="120" height="32" rx="4" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+  <text x="160" y="492" font-family="monospace" font-size="14" fill="#666666" text-anchor="middle">v0.1</text>
+
+  <!-- URL -->
+  <text x="240" y="492" font-family="monospace" font-size="14" fill="#444444">habilitalo.com</text>
+
+  <!-- Code snippet decoration -->
+  <g transform="translate(780, 180)" opacity="0.3">
+    <text font-family="monospace" font-size="14" fill="#e8f040">
+      <tspan x="0" dy="0">connector: {</tspan>
+      <tspan x="20" dy="24">id: "fintoc-v1",</tspan>
+      <tspan x="20" dy="24">transport: "webhook",</tspan>
+      <tspan x="20" dy="24">events: [</tspan>
+      <tspan x="40" dy="24">"bank.movement.created"</tspan>
+      <tspan x="20" dy="24">],</tspan>
+      <tspan x="20" dy="24">auth: "link_token"</tspan>
+      <tspan x="0" dy="24">}</tspan>
+    </text>
+  </g>
+
+  <!-- Accent line bottom -->
+  <rect x="0" y="627" width="1200" height="3" fill="#40f0a8"/>
+</svg>
