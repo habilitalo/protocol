@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whitepaper — Protocolo Habilitalo v0.1</title>
+  <meta name="description" content="Protocolo Habilitalo v0.1: Un protocolo abierto de conectores para integración de datos financieros, operativos y comerciales. Whitepaper técnico completo.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121210'/%3E%3Cpath d='M16 18v28M16 32h16M48 18v28M32 32h16' stroke='%23e8f040' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%2340f0a8'/%3E%3C/svg%3E">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://habilitalo.com/whitepaper.html">
+  <meta property="og:title" content="Protocolo Habilitalo v0.1 — Whitepaper">
+  <meta property="og:description" content="Un protocolo abierto de conectores para integración de datos financieros, operativos y comerciales. Especificación técnica completa.">
+  <meta property="og:image" content="https://habilitalo.com/og-image.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-surface: #111110;
+      --bg-card: #1a1a17;
+      --accent: #e8f040;
+      --accent2: #40f0a8;
+      --text: #f0efec;
+      --text-secondary: #c8c6c0;
+      --text-dim: #8a8780;
+      --text-muted: #555550;
+      --border: #2c2c29;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', Menlo, monospace;
+      --sidebar-w: 260px;
+      --topbar-h: 52px;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 24px); }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    /* ========== TOP BAR ========== */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: var(--topbar-h);
+      background: rgba(10, 10, 10, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px;
+      line-height: 0;
+    }
+
+    .topbar-hamburger svg { width: 22px; height: 22px; }
+
+    .topbar-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: -0.3px;
+    }
+
+    .topbar-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .topbar-title a:hover { color: var(--accent); }
+
+    .topbar-title .sep { color: var(--text-muted); margin: 0 8px; }
+
+    .pdf-btn {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      background: none;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .pdf-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .pdf-btn svg { width: 14px; height: 14px; }
+
+    /* ========== SIDEBAR ========== */
+    .sidebar {
+      position: fixed;
+      top: var(--topbar-h);
+      left: 0;
+      bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 24px 0;
+      z-index: 150;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav li a {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 7px 24px;
+      text-decoration: none;
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: color 0.2s, border-color 0.2s;
+      border-left: 2px solid transparent;
+      line-height: 1.4;
+    }
+
+    .sidebar-nav li a:hover {
+      color: var(--text-dim);
+    }
+
+    .sidebar-nav li a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar-nav li a .nav-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      opacity: 0.6;
+      min-width: 20px;
+    }
+
+    .sidebar-nav li a .nav-label {
+      font-family: var(--font-sans);
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      margin-left: var(--sidebar-w);
+      padding-top: var(--topbar-h);
+    }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 40px 120px;
+    }
+
+    /* ========== WHITEPAPER HEADER ========== */
+    .wp-header {
+      padding-bottom: 48px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wp-header h1 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 42px;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .wp-header .wp-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .wp-header .wp-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ========== SECTIONS ========== */
+    .wp-section {
+      position: relative;
+      padding-top: 64px;
+      margin-bottom: 56px;
+    }
+
+    .wp-section::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .section-num {
+      font-family: var(--font-serif);
+      font-size: 80px;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.1;
+      position: absolute;
+      top: 28px;
+      right: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .wp-section > h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    /* ========== TYPOGRAPHY ========== */
+    .content p {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .content h3 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 22px;
+      color: var(--text);
+      margin-top: 40px;
+      margin-bottom: 16px;
+    }
+
+    .content h4 {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+      margin-top: 32px;
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .content strong { color: var(--text); font-weight: 600; }
+
+    .content em { font-style: italic; }
+
+    .content a {
+      color: var(--accent2);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .content a:hover { border-bottom-color: var(--accent2); }
+
+    .content ul, .content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li::marker {
+      color: var(--text-muted);
+    }
+
+    /* ========== INLINE CODE ========== */
+    .content code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      color: var(--accent2);
+    }
+
+    /* ========== CODE BLOCKS ========== */
+    .code-block {
+      position: relative;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .code-block .code-lang {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      pointer-events: none;
+    }
+
+    .code-block pre {
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      tab-size: 2;
+    }
+
+    .code-block pre code {
+      color: inherit;
+      font-size: inherit;
+    }
+
+    /* Syntax highlight classes */
+    .hl-kw { color: var(--accent); }
+    .hl-st { color: var(--accent2); }
+    .hl-cm { color: var(--text-muted); font-style: italic; }
+    .hl-ty { color: #c8a0ff; }
+    .hl-nu { color: #f0a040; }
+
+    /* ========== TABLES ========== */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .content th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .content td {
+      padding: 10px 12px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(44, 44, 41, 0.5);
+      vertical-align: top;
+    }
+
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ========== BLOCKQUOTES / CALLOUTS ========== */
+    .content blockquote {
+      border-left: 3px solid var(--accent);
+      background: rgba(232, 240, 64, 0.03);
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .content blockquote p {
+      color: var(--text-dim);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* ========== HORIZONTAL RULES ========== */
+    .content hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ========== MOBILE ========== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 140;
+    }
+
+    @media (max-width: 900px) {
+      .topbar-hamburger { display: block; }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 160;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.open {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .content {
+        padding: 32px 20px 80px;
+      }
+
+      .section-num {
+        font-size: 56px;
+        top: 36px;
+      }
+
+      .wp-header h1 { font-size: 32px; }
+    }
+
+    /* ========== PRINT ========== */
+    @media print {
+      .sidebar, .topbar, .pdf-btn, .sidebar-overlay, .topbar-hamburger { display: none !important; }
+
+      body {
+        background: white;
+        color: #111;
+        font-size: 11pt;
+        line-height: 1.6;
+      }
+
+      .main { margin-left: 0; padding-top: 0; }
+
+      .content {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .content p, .content li, .content td { color: #333; }
+
+      .content h2, .content h3, .content h4, .content strong { color: #000; }
+
+      .content code { color: #333; }
+
+      .section-num { display: none; }
+
+      .wp-section::before { background: #000; }
+
+      .content th { color: #000; }
+
+      .code-block {
+        background: #f5f5f5;
+        border-color: #ddd;
+      }
+
+      .code-block pre, .code-block pre code { color: #222; }
+
+      .hl-kw, .hl-st, .hl-ty, .hl-cm, .hl-nu { color: #333; }
+
+      .content blockquote {
+        border-left-color: #000;
+        background: #f9f9f9;
+      }
+
+      .content blockquote p { color: #333; }
+
+      .content a { color: #333; text-decoration: underline; }
+
+      .wp-section { page-break-inside: avoid; padding-top: 32px; }
+
+      .code-block { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-hamburger" id="menuToggle" aria-label="Abrir navegación">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="topbar-title">
+        <a href="index.html">habilitalo.com</a>
+        <span class="sep">/</span>
+        Whitepaper v0.1
+      </span>
+    </div>
+    <button class="pdf-btn" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Descargar PDF
+    </button>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <ul class="sidebar-nav" id="sidebarNav">
+      <li><a href="#resumen"><span class="nav-num">01</span><span class="nav-label">Resumen</span></a></li>
+      <li><a href="#el-problema"><span class="nav-num">02</span><span class="nav-label">El Problema</span></a></li>
+      <li><a href="#que-es-habilitalo"><span class="nav-num">03</span><span class="nav-label">Qué es Habilitalo</span></a></li>
+      <li><a href="#conceptos-clave"><span class="nav-num">04</span><span class="nav-label">Conceptos Clave</span></a></li>
+      <li><a href="#pipeline-3-etapas"><span class="nav-num">05</span><span class="nav-label">Pipeline de 3 Etapas</span></a></li>
+      <li><a href="#deduplicacion"><span class="nav-num">06</span><span class="nav-label">Deduplicación</span></a></li>
+      <li><a href="#libro-partida-doble"><span class="nav-num">07</span><span class="nav-label">Partida Doble</span></a></li>
+      <li><a href="#conectores-fundacionales"><span class="nav-num">08</span><span class="nav-label">Conectores Fundacionales</span></a></li>
+      <li><a href="#sistema-de-eventos"><span class="nav-num">09</span><span class="nav-label">Sistema de Eventos</span></a></li>
+      <li><a href="#motores-de-analisis"><span class="nav-num">10</span><span class="nav-label">Motores de Análisis</span></a></li>
+      <li><a href="#posicion-en-el-stack"><span class="nav-num">11</span><span class="nav-label">Posición en el Stack</span></a></li>
+      <li><a href="#implementacion-tecnica"><span class="nav-num">12</span><span class="nav-label">Implementación Técnica</span></a></li>
+      <li><a href="#gobernanza"><span class="nav-num">13</span><span class="nav-label">Gobernanza</span></a></li>
+      <li><a href="#hoja-de-ruta"><span class="nav-num">14</span><span class="nav-label">Hoja de Ruta</span></a></li>
+      <li><a href="#apendice-a"><span class="nav-num">15</span><span class="nav-label">Apéndice A</span></a></li>
+      <li><a href="#apendice-b"><span class="nav-num">16</span><span class="nav-label">Apéndice B</span></a></li>
+      <li><a href="#apendice-c"><span class="nav-num">17</span><span class="nav-label">Apéndice C</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="content">
+
+      <!-- Header -->
+      <header class="wp-header reveal">
+        <h1>Protocolo Habilitalo v0.1</h1>
+        <p class="wp-subtitle">Un Protocolo Abierto de Conectores para Integración de Datos Financieros, Operativos y Comerciales</p>
+        <div class="wp-meta">
+          Franco Danioni &mdash; Digitalo SpA &mdash; habilitalo.com<br>
+          Marzo 2026
+        </div>
+      </header>
+
+      <!-- 01 Resumen -->
+      <section class="wp-section reveal" id="resumen">
+        <span class="section-num">01</span>
+        <h2>Resumen</h2>
+        <p>Toda empresa que se conecta a un banco, procesa un CSV, recibe un webhook o integra datos de un sistema operativo o comercial enfrenta el mismo problema: transformar datos externos desordenados en registros internos limpios. La respuesta de la industria han sido plataformas intermediarias &mdash; Plaid, MX, Yodlee, Salt Edge &mdash; que abstraen la fuente pero reemplazan una dependencia por otra. Intercambias lock-in de proveedor por lock-in de agregador, pagas renta por conexión a perpetuidad, y pierdes control sobre el pipeline de datos entre tu fuente y tu sistema.</p>
+        <p>Construimos Habilitalo para resolver esto nosotros mismos. Comenzó como la capa de integración dentro de Balancealo, la plataforma de observabilidad financiera de Grupo Digitalo. Después de construir tres conectores, un libro de partida doble, un sistema de eventos y dos motores de análisis, nos dimos cuenta de que el patrón era lo suficientemente general como para ser un protocolo.</p>
+        <p>Este whitepaper describe ese protocolo tal como existe hoy: aproximadamente 5.500 líneas de TypeScript en 24 archivos, corriendo en producción. No es un documento de roadmap. Todo lo descrito aquí ha sido implementado, probado y desplegado. Donde mencionamos trabajo futuro, lo decimos explícitamente.</p>
+        <blockquote><p>La integración de datos &mdash; financieros, operativos o comerciales &mdash; debería ser un protocolo, no una plataforma. Un conector debería ser una declaración: qué recibe, qué emite, cómo se autentica, acompañada de una función de transformación.</p></blockquote>
+        <p>El resto (deduplicación, posteo al libro mayor, entrega de eventos, detección de anomalías) es infraestructura que cualquier conector puede usar sin construirla por sí mismo.</p>
+      </section>
+
+      <!-- 02 El Problema -->
+      <section class="wp-section reveal" id="el-problema">
+        <span class="section-num">02</span>
+        <h2>El Problema</h2>
+        <p>La integración de datos &mdash; financieros, operativos y comerciales &mdash; está rota de tres maneras específicas.</p>
+
+        <h3>1. Fragmentación</h3>
+        <p>Cada institución financiera, sistema operativo o plataforma comercial expone datos de forma diferente. Los bancos chilenos a través de Fintoc usan <code>post_date</code> y <code>sender_account.holder_name</code> anidado. Un CSV de cartola bancaria puede tener <code>Fecha</code>, <code>Monto</code> y <code>Glosa</code> con formato numérico chileno (<code>1.234.567,89</code>). Otro CSV usa <code>Date</code>, <code>Amount</code> y <code>Description</code> con formato estadounidense (<code>1,234,567.89</code>). Una entrada manual desde un formulario tiene otra forma completamente distinta.</p>
+        <p>Cada fuente requiere su propia lógica de parsing, su propio manejo de fechas, su propia normalización de montos. Los equipos construyen esto desde cero cada vez. El código de parsing es sencillo; el problema es que se enreda con la lógica de negocio, haciendo imposible su reutilización.</p>
+
+        <h3>2. Lock-In</h3>
+        <p>Las plataformas de agregación que prometen resolver la fragmentación crean su propia dependencia. Tu pipeline de datos se convierte en: Banco &rarr; Agregador &rarr; Tu App. Cambiar de agregador significa reescribir tu capa de ingestión. El agregador controla el formato de datos, el mecanismo de entrega, el calendario de sincronización y el manejo de errores. No puedes inspeccionar ni modificar el pipeline entre el banco y tu base de datos.</p>
+
+        <h3>3. Extracción de Renta</h3>
+        <p>Los agregadores cobran por conexión, por cuenta, por mes. Esto tiene sentido económico para ellos pero crea incentivos perversos. Una fintech que atiende pequeñas empresas en América Latina no puede pagar USD 0,50/conexión/mes cuando su cliente promedio tiene 3 cuentas y paga USD 5/mes en total. El agregador se lleva el 30% de los ingresos por hacer lo que equivale a una llamada HTTP y una transformación de datos.</p>
+      </section>
+
+      <!-- 03 Qué es Habilitalo -->
+      <section class="wp-section reveal" id="que-es-habilitalo">
+        <span class="section-num">03</span>
+        <h2>Qué es Habilitalo</h2>
+        <p>Habilitalo es un protocolo abierto de Conectores que separa el <em>qué</em> de la integración (qué datos entran, qué eventos salen) del <em>cómo</em> (el pipeline que los procesa). Aunque nació en el contexto financiero, el protocolo es agnóstico al dominio: cualquier fuente de datos &mdash; financiera, operativa o comercial &mdash; puede expresarse como un conector.</p>
+        <p>Un Conector es una declaración con una función de transformación. La declaración le dice al sistema qué transporte usa el conector (webhook, carga de archivo, polling de API, entrada manual), qué eventos puede recibir de la fuente externa, qué eventos canónicos emite al sistema, y qué autenticación requiere.</p>
+        <p>La función de transformación toma datos crudos de la fuente y un objeto de contexto, y retorna un <code>CanonicalEvent</code> &mdash; un sobre uniforme que el resto del sistema puede procesar sin saber nada sobre la fuente.</p>
+        <p>Todo lo que está downstream del Conector &mdash; staging, deduplicación, posteo al libro mayor, entrega de eventos, detección de anomalías &mdash; es infraestructura compartida. Construir un nuevo conector significa escribir una función de transformación y un manifiesto JSON. El pipeline se encarga del resto.</p>
+
+        <h3>Principios de Diseño</h3>
+        <ol>
+          <li><strong>Declaración sobre configuración.</strong> Un manifiesto de conector (<code>habilitalo.connector.json</code>) declara capacidades. Sin código de configuración imperativo.</li>
+          <li><strong>Aislamiento del transform.</strong> La función de transformación es el único código que escribe el autor del conector. Recibe datos crudos y retorna un evento canónico. Los efectos secundarios ocurren en el pipeline.</li>
+          <li><strong>Entrega al menos una vez.</strong> Los eventos se persisten antes de intentar la entrega. El sistema tolera entregas duplicadas; se espera que los consumidores sean idempotentes.</li>
+          <li><strong>Deduplicación basada en hash.</strong> Cada entrada recibe un hash SHA-256 determinístico. Los mismos datos ingestados dos veces producen el mismo hash y se descartan silenciosamente.</li>
+          <li><strong>Corrección de partida doble.</strong> Cada movimiento financiero produce un asiento contable balanceado. Débitos igualan créditos, siempre.</li>
+          <li><strong>Eventos fire-and-forget.</strong> La emisión de eventos nunca bloquea el pipeline. Los eventos son un mecanismo de notificación, no un mecanismo de flujo de control.</li>
+        </ol>
+      </section>
+
+      <!-- 04 Conceptos Clave -->
+      <section class="wp-section reveal" id="conceptos-clave">
+        <span class="section-num">04</span>
+        <h2>Conceptos Clave</h2>
+
+        <h3>Conector</h3>
+        <p>La interfaz <code>HabilitaloConnector</code> es la abstracción central. Cada fuente de datos &mdash; una API bancaria, una carga de archivo, un formulario manual &mdash; se representa como un Conector.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface HabilitaloConnector {
+  /** Identificador único del conector (ej. "fintoc-v1") */
+  id: string
+
+  /** Versión semver de este conector */
+  version: string
+
+  /** Lo que este conector puede recibir */
+  inbound: InboundDeclaration
+
+  /** Qué eventos canónicos emite este conector */
+  outbound: OutboundDeclaration
+
+  /** Requisitos de autenticación */
+  auth: AuthDeclaration
+
+  /** Función transform: datos crudos -> CanonicalEvent */
+  transform: HabilitaloTransform
+}</code></pre>
+        </div>
+
+        <p>La <code>InboundDeclaration</code> especifica el mecanismo de transporte y los tipos de evento que el conector maneja desde la fuente:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface InboundDeclaration {
+  /** Mecanismo de transporte: webhook, file, manual, api_poll */
+  transport: 'webhook' | 'file' | 'manual' | 'api_poll'
+
+  /** Tipos de evento que este conector puede recibir de la fuente */
+  events: string[]
+}</code></pre>
+        </div>
+
+        <p>La <code>OutboundDeclaration</code> especifica qué tipos de eventos canónicos produce este conector:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface OutboundDeclaration {
+  /** Tipos de eventos canónicos que este conector emite */
+  events: string[]
+}</code></pre>
+        </div>
+
+        <p>La <code>AuthDeclaration</code> le dice al sistema qué credenciales se requieren:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface AuthDeclaration {
+  /** Tipo de autenticación requerido por la fuente */
+  type: 'api_key' | 'oauth2' | 'link_token' | 'none'
+
+  /** Campos de credencial requeridos (ej. ["apiKey", "secretKey"]) */
+  requiredFields?: string[]
+}</code></pre>
+        </div>
+
+        <p>La función de transformación recibe datos crudos y un objeto de contexto:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">type HabilitaloTransform = (
+  raw: unknown,
+  context: ConnectorContext
+) => CanonicalEvent
+
+interface ConnectorContext {
+  /** ID de organización/tenant */
+  tenantId: string
+  /** ID del data feed (si aplica) */
+  feedId?: string
+  /** Configuración del conector (específica por fuente) */
+  config: Record&lt;string, unknown&gt;
+  /** Trace ID para tracing distribuido */
+  traceId: string
+}</code></pre>
+        </div>
+
+        <h3>Evento Canónico</h3>
+        <p>Cada conector emite eventos en una única forma canónica. Este es el sobre universal que fluye a través de todo el sistema &mdash; desde el conector al pipeline, al webhook, al motor de análisis.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface CanonicalEvent {
+  /** Identificador único del evento (UUIDv4) */
+  id: string
+
+  /** Timestamp ISO8601 de cuándo se emitió el evento */
+  timestamp: string
+
+  /** Sistema que originó el evento (ej. "habilitalo") */
+  source: string
+
+  /** Tipo de evento en notación de punto (ej. "bank.movement.created") */
+  type: string
+
+  /** Versión del esquema de este tipo de evento (semver) */
+  version: string
+
+  /** Payload específico del evento -- forma depende de `type` */
+  payload: Record&lt;string, unknown&gt;
+
+  /** Metadata de ruteo y tracing */
+  meta: {
+    connector: string
+    tenant: string
+    trace_id: string
+  }
+}</code></pre>
+        </div>
+
+        <p>El helper <code>createCanonicalEvent</code> provee valores por defecto sensatos:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">function createCanonicalEvent(
+  params: Pick&lt;CanonicalEvent, 'type' | 'payload' | 'meta'&gt; & {
+    id?: string
+    version?: string
+    source?: string
+  }
+): CanonicalEvent {
+  return {
+    id: params.id ?? crypto.randomUUID(),
+    timestamp: new Date().toISOString(),
+    source: params.source ?? 'habilitalo',
+    type: params.type,
+    version: params.version ?? '1.0.0',
+    payload: params.payload,
+    meta: params.meta,
+  }
+}</code></pre>
+        </div>
+
+        <h3>Registry</h3>
+        <p>El <code>ConnectorRegistry</code> es el catálogo en tiempo de ejecución de todos los conectores disponibles. Sirve dos propósitos: es el mecanismo de búsqueda para el pipeline (dado un tipo de feed, encontrar el conector correcto) y es el puente de compatibilidad entre la nueva capa de protocolo y el sistema existente de <code>SourceAdapter</code>.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">const ConnectorRegistry = {
+  register(connector: HabilitaloConnector, adapter?: SourceAdapter): void
+  get(id: string): HabilitaloConnector | undefined
+  list(): HabilitaloConnector[]
+  has(id: string): boolean
+  getSourceAdapter: getSourceAdapter   // Puente legacy
+  listSourceAdapters: listSourceAdapters // Puente legacy
+}</code></pre>
+        </div>
+
+        <p>La función <code>bridgeAdapterToConnector</code> envuelve un <code>SourceAdapter</code> existente en la interfaz <code>HabilitaloConnector</code> sin modificar el código del adapter:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">function bridgeAdapterToConnector(
+  adapter: SourceAdapter,
+  manifest: {
+    id: string
+    version: string
+    inbound: HabilitaloConnector['inbound']
+    outbound: HabilitaloConnector['outbound']
+    auth: HabilitaloConnector['auth']
+  }
+): HabilitaloConnector</code></pre>
+        </div>
+      </section>
+
+      <!-- 05 Pipeline de 3 Etapas -->
+      <section class="wp-section reveal" id="pipeline-3-etapas">
+        <span class="section-num">05</span>
+        <h2>El Pipeline de 3 Etapas</h2>
+        <p>El pipeline es el núcleo de Habilitalo. Toma datos crudos de cualquier fuente y produce asientos contables balanceados, eventos emitidos y resultados de análisis. Las tres etapas son secuenciales y desacopladas &mdash; cada etapa lee y escribe a la base de datos, de modo que una falla en una etapa no corrompe las demás.</p>
+        <div class="code-block">
+          <pre><code>                     Etapa 1              Etapa 2              Etapa 3
+                    (Ingestar)           (Procesar)           (Analizar)
+                 +------------+      +--------------+     +------------+
+Fuente Externa   | Adapter    | ---> | RawEntry     | --> | JournalEntry|
+(banco, CSV,     | Transform  |      | (staging)    |     | (libro)     |
+ formulario)     | Validar    |      | Deduplicar   |     | Balanceado  |
+                 | Hash       |      | Partida doble|     | débito/créd.|
+                 +------------+      +--------------+     +------------+
+                                                                |
+                                                          +-----+------+
+                                                          |            |
+                                                    [Eventos]   [Análisis]
+                                                          |            |
+                                                    Webhooks    Anomalías
+                                                                Patrones</code></pre>
+        </div>
+
+        <h3>Etapa 1: Ingestión</h3>
+        <p>La etapa de ingestión transforma datos crudos de la fuente en registros <code>RawEntry</code> en la tabla de staging. Aquí es donde ocurre el parsing específico de cada fuente: formatos de fecha, formatos de monto, mapeo de campos, detección de moneda.</p>
+        <p><strong>Entrada:</strong> Datos crudos de la fuente (movimientos Fintoc, filas CSV, datos de formulario manual).</p>
+        <p><strong>Proceso:</strong></p>
+        <ol>
+          <li>El <code>SourceAdapter</code> apropiado transforma los datos de la fuente en <code>RawEntryInput[]</code>.</li>
+          <li>Cada entrada se valida: campos requeridos, límites de monto, sanidad de fecha, validez de moneda.</li>
+          <li>Se calcula un hash SHA-256 desde campos normalizados: <code>date|amount|accountId|description|reference</code>.</li>
+          <li>El hash se compara contra entradas existentes en la misma organización.</li>
+          <li>Si es duplicado: se descarta silenciosamente (o se usa sufijo de secuencia para colisiones legítimas).</li>
+          <li>Si es nuevo: se crea un <code>RawEntry</code> con estado <code>pending</code>.</li>
+        </ol>
+        <p><strong>Salida:</strong> <code>IngestResult</code> con conteos de entradas staged, duplicadas y con error.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface IngestResult {
+  staged: number
+  duplicates: number
+  errors: number
+  entries: Array&lt;{
+    id?: string
+    status: 'staged' | 'duplicate' | 'error'
+    hash?: string
+    error?: string
+  }&gt;
+}</code></pre>
+        </div>
+
+        <p>El <code>RawEntryInput</code> es el formato intermedio universal que produce cada adapter:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface RawEntryInput {
+  dataFeedId: string
+  organizationId: string
+  transactionDate: Date
+  postDate?: Date | null
+  amount: number
+  currency?: Currency
+  description: string
+  counterparty?: string | null
+  reference?: string | null
+  sourceId?: string | null
+  rawData: Record&lt;string, unknown&gt;
+}</code></pre>
+        </div>
+
+        <p>Decisiones clave de diseño en la etapa de ingestión:</p>
+        <ul>
+          <li><strong>Batch vs. individual.</strong> Para lotes de menos de 100 entradas, usamos <code>createMany</code> con hashes pre-calculados. Para lotes más grandes, hacemos procesamiento individual para evitar transacciones largas.</li>
+          <li><strong>Preservación de datos crudos.</strong> Los datos originales se almacenan en <code>rawData</code> como columna JSON, permitiendo re-procesamiento o auditoría sin consultar la fuente nuevamente.</li>
+          <li><strong>Estadísticas de feed.</strong> Después de una ingestión exitosa, el registro <code>DataFeed</code> se actualiza con incremento de <code>totalEntries</code> y timestamp <code>lastSyncAt</code>.</li>
+        </ul>
+
+        <h3>Etapa 2: Procesamiento</h3>
+        <p>El procesador toma registros <code>RawEntry</code> pendientes y los convierte en registros <code>JournalEntry</code> de partida doble en el libro mayor.</p>
+        <p><strong>Entrada:</strong> Registros <code>RawEntry</code> con estado <code>pending</code>.</p>
+        <p><strong>Proceso:</strong></p>
+        <ol>
+          <li>Obtener entradas pendientes ordenadas por fecha de transacción.</li>
+          <li>Para cada entrada, marcar como <code>processing</code> (previene procesamiento concurrente).</li>
+          <li>Verificación de race condition: confirmar que ninguna otra entrada con el mismo hash ya esté <code>processed</code>.</li>
+          <li>Determinar dirección de la transacción por signo del monto (positivo = ingreso, negativo = gasto).</li>
+          <li>Crear un <code>JournalEntry</code> con <code>JournalLine[]</code> débito/crédito balanceados.</li>
+          <li>Marcar <code>RawEntry</code> como <code>processed</code> con referencia al <code>JournalEntry</code>.</li>
+          <li>Fire-and-forget: emitir evento <code>bank.movement.created</code>.</li>
+        </ol>
+        <p><strong>Salida:</strong> <code>ProcessorResult</code> con conteos y detalles por entrada.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface ProcessorResult {
+  processed: number
+  duplicates: number
+  errors: number
+  details: Array&lt;{
+    rawEntryId: string
+    status: 'processed' | 'duplicate' | 'error'
+    journalEntryId?: string
+    error?: string
+  }&gt;
+}</code></pre>
+        </div>
+
+        <p><strong>Manejo de errores:</strong> Si el procesamiento falla para una entrada, se marca como <code>error</code> con el mensaje de error almacenado. Las entradas fallidas pueden re-procesarse luego vía <code>reprocessFailedEntries</code>, que resetea su estado a <code>pending</code> y ejecuta el procesador de nuevo.</p>
+
+        <h3>Etapa 3: Análisis</h3>
+        <p>La etapa de análisis corre asincrónicamente después del posteo al libro mayor. Examina los asientos contables buscando dos clases de patrones:</p>
+        <ol>
+          <li><strong>Anomalías:</strong> Transacciones que se desvían significativamente de las normas históricas.</li>
+          <li><strong>Recurrencias:</strong> Patrones repetitivos (suscripciones, salario, arriendo, etc.).</li>
+        </ol>
+        <p>Ambos motores leen de las tablas <code>JournalEntry</code> y <code>JournalLine</code> y escriben sus resultados en tablas dedicadas (<code>Anomaly</code>, <code>RecurringPattern</code>, <code>RecurringOccurrence</code>).</p>
+      </section>
+
+      <!-- 06 Deduplicación -->
+      <section class="wp-section reveal" id="deduplicacion">
+        <span class="section-num">06</span>
+        <h2>Deduplicación</h2>
+        <p>La deduplicación es crítica para un sistema que ingesta datos de múltiples fuentes en calendarios superpuestos. Fintoc puede entregar el mismo movimiento en dos sincronizaciones consecutivas. Un usuario puede subir el mismo CSV dos veces. El sistema debe absorber duplicados silenciosamente sin crear entradas dobles en el libro mayor.</p>
+
+        <h3>Cálculo de Hash</h3>
+        <p>Cada entrada recibe un hash SHA-256 calculado a partir de cinco campos normalizados:</p>
+        <div class="code-block">
+          <pre><code>SHA-256( date | amount | accountId | description | reference )</code></pre>
+        </div>
+
+        <p>Reglas de normalización:</p>
+        <ul>
+          <li><strong>Fecha:</strong> Convertida a <code>YYYY-MM-DD</code> (componente de hora eliminado).</li>
+          <li><strong>Monto:</strong> Valor absoluto con exactamente 2 decimales.</li>
+          <li><strong>AccountId:</strong> Usado tal cual (UUID).</li>
+          <li><strong>Descripción:</strong> En minúsculas, acentos removidos (normalización NFD), caracteres especiales eliminados, espacios múltiples colapsados.</li>
+          <li><strong>Referencia:</strong> Misma normalización que descripción, incluida solo si está presente.</li>
+        </ul>
+
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">function calculateEntryHash(entry: HashableEntry): HashResult {
+  const normalizedFields = {
+    date: normalizeDate(entry.transactionDate),
+    amount: normalizeAmount(entry.amount),
+    accountId: entry.accountId,
+    description: normalizeString(entry.description),
+    reference: entry.reference ? normalizeString(entry.reference) : '',
+  }
+
+  const parts = [
+    normalizedFields.date,
+    normalizedFields.amount,
+    normalizedFields.accountId,
+    normalizedFields.description,
+  ]
+
+  if (normalizedFields.reference) {
+    parts.push(normalizedFields.reference)
+  }
+
+  const hashInput = parts.join('|')
+  const hash = createHash('sha256').update(hashInput).digest('hex')
+
+  return { hash, normalizedFields }
+}</code></pre>
+        </div>
+
+        <h3>Manejo de Colisiones</h3>
+        <p>Las colisiones legítimas ocurren cuando una persona hace dos compras idénticas el mismo día. El sistema las distingue verificando <code>sourceId</code> &mdash; si dos entradas tienen el mismo hash pero identificadores de fuente diferentes, se tratan como transacciones distintas.</p>
+        <p>Para colisiones legítimas, se agrega un sufijo de secuencia:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">function calculateEntryHashWithSequence(
+  entry: HashableEntry,
+  sequence: number
+): string {
+  const { hash: baseHash } = calculateEntryHash(entry)
+  if (sequence === 0) return baseHash
+  return createHash('sha256')
+    .update(`${baseHash}|seq:${sequence}`)
+    .digest('hex')
+}</code></pre>
+        </div>
+        <p>El sistema intenta hasta 10 números de secuencia antes de desistir y marcar la entrada como duplicada.</p>
+
+        <h3>Restricción de Base de Datos</h3>
+        <p>El hash de deduplicación se enforce a nivel de base de datos con una restricción unique sobre <code>(organizationId, entryHash)</code>. Esto provee una red de seguridad contra race conditions. La ruta de ingestión en bulk usa <code>createMany</code> con <code>skipDuplicates: true</code> como guarda adicional.</p>
+      </section>
+
+      <!-- 07 Libro de Partida Doble -->
+      <section class="wp-section reveal" id="libro-partida-doble">
+        <span class="section-num">07</span>
+        <h2>Libro de Partida Doble</h2>
+        <p>Cada movimiento financiero en Habilitalo se registra como un <code>JournalEntry</code> con registros <code>JournalLine[]</code> balanceados. Esto es contabilidad de partida doble propiamente tal: por cada débito, hay un crédito igual, por moneda.</p>
+
+        <h3>Modelo de Datos</h3>
+        <div class="code-block">
+          <pre><code>JournalEntry
+  id: UUID
+  organizationId: UUID
+  entryNumber: auto-incremento por org
+  description: string
+  transactionDate: Date
+  postDate: Date (por defecto la hora de creación)
+  status: 'draft' | 'posted' | 'voided'
+  sourceType: DataFeedType (fintoc, csv_import, manual, etc.)
+  sourceRef: string (referencia al RawEntry u otra fuente)
+  lines: JournalLine[]
+
+JournalLine
+  id: UUID
+  journalEntryId: UUID
+  accountId: UUID
+  entryType: 'debit' | 'credit'
+  amount: Decimal
+  currency: Currency
+  description: string
+  counterparty: string
+  categoryId: UUID (opcional)
+  ownerId: UUID (opcional)</code></pre>
+        </div>
+
+        <h3>Validación de Balance</h3>
+        <p>Antes de crear cualquier <code>JournalEntry</code>, el sistema valida que los débitos igualen los créditos para cada moneda:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">function validateJournalLinesBalance(
+  lines: Array&lt;{ entryType: 'debit' | 'credit'; amount: number; currency: string }&gt;
+): ValidationResult {
+  const byCurrency = new Map&lt;string, { debits: number; credits: number }&gt;()
+
+  for (const line of lines) {
+    const curr = byCurrency.get(line.currency) || { debits: 0, credits: 0 }
+    if (line.entryType === 'debit') {
+      curr.debits += line.amount
+    } else {
+      curr.credits += line.amount
+    }
+    byCurrency.set(line.currency, curr)
+  }
+
+  for (const [currency, { debits, credits }] of byCurrency) {
+    const diff = Math.abs(debits - credits)
+    if (diff > 0.01) {
+      errors.push(
+        `Líneas en ${currency} no están balanceadas: débitos=${debits}, créditos=${credits}`
+      )
+    }
+  }
+
+  return { valid: errors.length === 0, errors, warnings }
+}</code></pre>
+        </div>
+
+        <h3>Naturaleza de Cuenta</h3>
+        <p>Las cuentas tienen una <code>naturaleza</code> que determina cómo se calcula su saldo:</p>
+        <ul>
+          <li><strong><code>debit_normal</code></strong> (activos, gastos): Saldo = SUMA(débitos) - SUMA(créditos).</li>
+          <li><strong><code>credit_normal</code></strong> (pasivos, patrimonio, ingresos): Saldo = SUMA(créditos) - SUMA(débitos).</li>
+        </ul>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">async function calculateAccountBalance(
+  accountId: string,
+  asOfDate?: Date,
+  includeVoided = false
+): Promise&lt;AccountBalance&gt; {
+  // ... obtener cuenta y agregar líneas ...
+
+  const balance =
+    account.accountNature === 'debit_normal'
+      ? debits - credits
+      : credits - debits
+
+  return {
+    accountId: account.id,
+    accountName: account.name,
+    accountNature: account.accountNature,
+    totalDebits: debits,
+    totalCredits: credits,
+    balance,
+    currency: account.currency,
+  }
+}</code></pre>
+        </div>
+
+        <h3>Tipos de Transacción</h3>
+        <p>El libro mayor soporta tres tipos simples de transacción:</p>
+        <ul>
+          <li><strong>Ingreso:</strong> DÉBITO a la cuenta bancaria (aumenta activo), CRÉDITO a la contra de ingresos.</li>
+          <li><strong>Gasto:</strong> DÉBITO a la contra de gastos, CRÉDITO a la cuenta bancaria (disminuye activo).</li>
+          <li><strong>Transferencia:</strong> DÉBITO a la cuenta destino, CRÉDITO a la cuenta origen.</li>
+        </ul>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">async function createSimpleEntry(
+  input: SimpleTransactionInput & { organizationId: string }
+): Promise&lt;JournalEntryWithLines&gt; {
+  switch (input.type) {
+    case 'income':
+      return createIncomeEntry(input)
+    case 'expense':
+      return createExpenseEntry(input)
+    case 'transfer':
+      return createTransferEntry(input)
+  }
+}</code></pre>
+        </div>
+
+        <h3>Anulación/Reversión</h3>
+        <p>Los asientos contables pueden ser anulados pero nunca eliminados. Una entrada anulada retiene sus líneas y metadata pero se excluye de los cálculos de saldo (a menos que <code>includeVoided</code> se establezca explícitamente). La operación de anulación registra una razón y timestamp para propósitos de auditoría.</p>
+      </section>
+
+      <!-- 08 Conectores Fundacionales -->
+      <section class="wp-section reveal" id="conectores-fundacionales">
+        <span class="section-num">08</span>
+        <h2>Conectores Fundacionales</h2>
+        <p>Habilitalo viene con tres conectores que cubren los escenarios de ingestión más comunes en fintech latinoamericana. El protocolo soporta conectores de cualquier dominio &mdash; financiero, operativo o comercial &mdash; estos tres fundacionales demuestran el patrón con datos financieros.</p>
+
+        <h3>Fintoc (Open Banking Chile)</h3>
+        <p><strong>ID del Conector:</strong> <code>fintoc-v1</code> &nbsp; <strong>Transporte:</strong> webhook &nbsp; <strong>Auth:</strong> link_token &nbsp; <strong>Emite:</strong> <code>bank.movement.created</code></p>
+        <p>Fintoc provee acceso Open Banking a instituciones financieras chilenas. El conector transforma objetos <code>FintocMovement</code> en registros <code>RawEntryInput</code>.</p>
+
+        <h4>Mapeo de campos</h4>
+        <table>
+          <thead><tr><th>Campo Fintoc</th><th>Campo RawEntryInput</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>post_date</code></td><td><code>postDate</code></td><td>String fecha ISO</td></tr>
+            <tr><td><code>transaction_date</code></td><td><code>transactionDate</code></td><td>Fallback a <code>post_date</code></td></tr>
+            <tr><td><code>amount</code></td><td><code>amount</code></td><td>Positivo = ingreso, negativo = gasto</td></tr>
+            <tr><td><code>currency</code></td><td><code>currency</code></td><td>Mapeado: CLP, USD, EUR, UF</td></tr>
+            <tr><td><code>description</code> + <code>comment</code></td><td><code>description</code></td><td>Concatenados con separador</td></tr>
+            <tr><td><code>sender_account.holder_name</code></td><td><code>counterparty</code></td><td>Para ingresos (monto &gt; 0)</td></tr>
+            <tr><td><code>recipient_account.holder_name</code></td><td><code>counterparty</code></td><td>Para gastos (monto &lt; 0)</td></tr>
+            <tr><td><code>reference_id</code></td><td><code>reference</code></td><td>Usado en cálculo de hash</td></tr>
+            <tr><td><code>id</code></td><td><code>sourceId</code></td><td>ID de movimiento Fintoc para dedup</td></tr>
+          </tbody>
+        </table>
+
+        <h4>Estrategia de sincronización incremental</h4>
+        <p>La integración con Fintoc usa un enfoque de sincronización por chunks:</p>
+        <ol>
+          <li><strong>Ventana de 24 meses:</strong> Sincroniza hasta 2 años de datos históricos.</li>
+          <li><strong>3 meses por chunk:</strong> Cada invocación procesa 3 meses de movimientos.</li>
+          <li><strong>Cuentas en paralelo:</strong> Todas las cuentas dentro de un link se sincronizan en paralelo.</li>
+          <li><strong>Integración con pipeline:</strong> Los movimientos fluyen por el pipeline completo.</li>
+          <li><strong>Reanudable:</strong> El progreso de sincronización se persiste como JSON en el registro <code>FintocLink</code>.</li>
+        </ol>
+
+        <h4>Manifiesto del conector</h4>
+        <div class="code-block">
+          <span class="code-lang">JSON</span>
+          <pre><code data-lang="json">{
+  "id": "fintoc-v1",
+  "name": "Fintoc Open Banking",
+  "version": "1.0.0",
+  "category": "financial",
+  "tags": ["banking", "chile", "latam"],
+  "inbound": {
+    "transport": "webhook",
+    "events": ["payment.received"]
+  },
+  "outbound": {
+    "events": ["bank.movement.created"]
+  },
+  "auth": {
+    "type": "link_token",
+    "requiredFields": ["linkToken"]
+  },
+  "habilitalo": "0.1"
+}</code></pre>
+        </div>
+
+        <h3>CSV (Cartolas Bancarias)</h3>
+        <p><strong>ID del Conector:</strong> <code>csv-v1</code> &nbsp; <strong>Transporte:</strong> file &nbsp; <strong>Auth:</strong> none &nbsp; <strong>Emite:</strong> <code>bank.movement.created</code></p>
+        <p>El conector CSV parsea archivos de cartola bancaria con detección inteligente de formato.</p>
+
+        <h4>Detección de formato de monto</h4>
+        <table>
+          <thead><tr><th>Formato</th><th>Miles</th><th>Decimal</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Chileno</td><td><code>.</code> (punto)</td><td><code>,</code> (coma)</td><td><code>1.234.567,89</code></td></tr>
+            <tr><td>US/Internacional</td><td><code>,</code> (coma)</td><td><code>.</code> (punto)</td><td><code>1,234,567.89</code></td></tr>
+          </tbody>
+        </table>
+
+        <h4>Auto-detección de columnas</h4>
+        <table>
+          <thead><tr><th>Campo</th><th>Nombres de columna de fallback</th></tr></thead>
+          <tbody>
+            <tr><td>Fecha</td><td><code>fecha</code>, <code>date</code>, <code>transaction_date</code>, <code>transactiondate</code></td></tr>
+            <tr><td>Monto</td><td><code>monto</code>, <code>amount</code>, <code>valor</code>, <code>value</code>, <code>importe</code></td></tr>
+            <tr><td>Descripción</td><td><code>descripcion</code>, <code>description</code>, <code>detalle</code>, <code>glosa</code>, <code>concepto</code></td></tr>
+            <tr><td>Contraparte</td><td><code>contraparte</code>, <code>counterparty</code>, <code>comercio</code>, <code>merchant</code></td></tr>
+            <tr><td>Referencia</td><td><code>referencia</code>, <code>reference</code>, <code>ref</code>, <code>numero</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="code-block">
+          <span class="code-lang">JSON</span>
+          <pre><code data-lang="json">{
+  "id": "csv-v1",
+  "name": "CSV File Import",
+  "version": "1.0.0",
+  "category": "financial",
+  "tags": ["csv", "file", "import", "bank-statement"],
+  "inbound": { "transport": "file", "events": ["file.uploaded"] },
+  "outbound": { "events": ["bank.movement.created"] },
+  "auth": { "type": "none" },
+  "habilitalo": "0.1"
+}</code></pre>
+        </div>
+
+        <h3>Manual (Formularios Estructurados)</h3>
+        <p><strong>ID del Conector:</strong> <code>manual-v1</code> &nbsp; <strong>Transporte:</strong> manual &nbsp; <strong>Auth:</strong> none &nbsp; <strong>Emite:</strong> <code>bank.movement.created</code></p>
+        <p>El conector Manual es un adapter passthrough para datos estructurados enviados a través de formularios o llamadas API. Valida y normaliza los datos pero no realiza parsing. Este conector existe para asegurar que las transacciones ingresadas manualmente fluyan por el mismo pipeline que las fuentes automatizadas.</p>
+        <div class="code-block">
+          <span class="code-lang">JSON</span>
+          <pre><code data-lang="json">{
+  "id": "manual-v1",
+  "name": "Manual Entry",
+  "version": "1.0.0",
+  "category": "financial",
+  "tags": ["manual", "entry", "form"],
+  "inbound": { "transport": "manual", "events": ["entry.submitted"] },
+  "outbound": { "events": ["bank.movement.created"] },
+  "auth": { "type": "none" },
+  "habilitalo": "0.1"
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- 09 Sistema de Eventos -->
+      <section class="wp-section reveal" id="sistema-de-eventos">
+        <span class="section-num">09</span>
+        <h2>Sistema de Eventos</h2>
+        <p>Habilitalo emite eventos vía webhooks cuando ocurren cosas significativas en el pipeline. Los eventos son el mecanismo por el cual los servicios downstream aprenden sobre la actividad financiera.</p>
+
+        <h3>Arquitectura</h3>
+        <p>El sistema de eventos se construye sobre tres tablas de base de datos:</p>
+        <ul>
+          <li><strong><code>WebhookEndpoint</code>:</strong> Una URL registrada que recibe eventos. Tiene tipos de eventos suscritos, un secreto para firma HMAC, y seguimiento de fallas.</li>
+          <li><strong><code>WebhookDelivery</code>:</strong> Un registro de cada intento de entrega. Persistido <em>antes</em> del primer intento (garantía de al-menos-una-vez).</li>
+          <li><strong>El emisor de eventos:</strong> La función <code>emit()</code> que orquesta la entrega.</li>
+        </ul>
+
+        <h3>Semántica de Entrega</h3>
+        <p><strong>Al-menos-una-vez:</strong> Un registro <code>WebhookDelivery</code> se crea en la base de datos antes de la primera solicitud HTTP.</p>
+        <p><strong>Fire-and-forget:</strong> La función <code>emit()</code> nunca lanza una excepción. Todos los errores se capturan y loguean.</p>
+        <p><strong>Reintento con backoff exponencial:</strong> Las entregas fallidas se reintentan hasta 3 veces:</p>
+        <div class="code-block">
+          <pre><code>Intento 1: inmediato
+Intento 2: después de 1s    (1000ms &times; 4^0)
+Intento 3: después de 4s    (1000ms &times; 4^1)
+           (desistir después de 3 fallas)</code></pre>
+        </div>
+        <p><strong>Errores no reintentables:</strong> Respuestas HTTP 4xx (excepto 429 Too Many Requests) no se reintentan.</p>
+
+        <h3>Firma HMAC-SHA256</h3>
+        <p>Cada entrega de webhook se firma con el secreto del endpoint usando HMAC-SHA256:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">const signature = createHmac('sha256', endpoint.secretHash)
+  .update(payloadString)
+  .digest('hex')
+
+// Headers enviados:
+// Content-Type: application/json
+// X-Habilitalo-Event: bank.movement.created
+// X-Habilitalo-Signature: &lt;HMAC codificado en hex&gt;</code></pre>
+        </div>
+
+        <h3>Filtrado de Eventos</h3>
+        <p>Cada <code>WebhookEndpoint</code> tiene un array <code>events</code> que especifica qué tipos de eventos quiere recibir. El wildcard <code>*</code> suscribe a todos los eventos:</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">const subscribedEndpoints = endpoints.filter((ep) => {
+  const events = ep.events as string[]
+  return Array.isArray(events) && (
+    events.includes(eventType) || events.includes('*')
+  )
+})</code></pre>
+        </div>
+
+        <h3>Tipos de Evento</h3>
+        <table>
+          <thead><tr><th>Tipo de Evento</th><th>Disparador</th><th>Payload</th></tr></thead>
+          <tbody>
+            <tr><td><code>bank.movement.created</code></td><td>El procesador crea un JournalEntry desde un RawEntry</td><td>Detalles del movimiento, cuenta, monto, contraparte</td></tr>
+            <tr><td><code>analysis.anomaly.detected</code></td><td>El detector de anomalías marca una transacción</td><td>Tipo de anomalía, severidad, Z-score, esperado vs. detectado</td></tr>
+            <tr><td><code>analysis.recurrence.detected</code></td><td>El detector de recurrencia identifica un patrón</td><td>Nombre del patrón, frecuencia, monto, confianza</td></tr>
+            <tr><td><code>ledger.entry.created</code></td><td>Un JournalEntry se postea al libro mayor</td><td>Asiento contable completo con todas las líneas</td></tr>
+          </tbody>
+        </table>
+
+        <h3>API de Gestión de Webhooks</h3>
+        <p>Los endpoints de webhook se gestionan a través de rutas REST API en <code>/api/habilitalo/webhooks</code>:</p>
+        <ul>
+          <li><code>POST /api/habilitalo/webhooks</code> &mdash; Crear un nuevo endpoint.</li>
+          <li><code>GET /api/habilitalo/webhooks?organizationId=...</code> &mdash; Listar endpoints activos.</li>
+          <li><code>GET /api/habilitalo/webhooks/:id/deliveries</code> &mdash; Ver historial de entregas.</li>
+        </ul>
+      </section>
+
+      <!-- 10 Motores de Análisis -->
+      <section class="wp-section reveal" id="motores-de-analisis">
+        <span class="section-num">10</span>
+        <h2>Motores de Análisis</h2>
+        <p>Habilitalo incluye dos motores de análisis que corren sobre datos del libro mayor, diseñados para detectar insights que serían difíciles de identificar manualmente.</p>
+
+        <h3>Detección de Anomalías</h3>
+        <p>El detector de anomalías usa análisis de Z-score sobre estadísticas de transacciones por categoría para marcar outliers. Detecta tres tipos de anomalías:</p>
+
+        <h4>1. Monto Inusual (<code>unusual_amount</code>)</h4>
+        <p>Para cada categoría de transacción, el sistema mantiene estadísticas corrientes calculadas desde líneas de journal en el período de lookback (por defecto: 90 días, mínimo 10 muestras).</p>
+        <div class="code-block">
+          <pre><code>Z = |monto - media_categoría| / desviación_estándar_categoría</code></pre>
+        </div>
+
+        <table>
+          <thead><tr><th>Severidad</th><th>Umbral Z-score por Defecto</th></tr></thead>
+          <tbody>
+            <tr><td>Baja</td><td>2.0</td></tr>
+            <tr><td>Media</td><td>2.5</td></tr>
+            <tr><td>Alta</td><td>3.0</td></tr>
+            <tr><td>Crítica</td><td>4.0</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Niveles de sensibilidad</strong> ajustan todos los umbrales por un multiplicador:</p>
+        <table>
+          <thead><tr><th>Sensibilidad</th><th>Multiplicador</th><th>Efecto</th></tr></thead>
+          <tbody>
+            <tr><td>Baja</td><td>1.3x</td><td>Menos alertas, solo outliers extremos</td></tr>
+            <tr><td>Media</td><td>1.0x</td><td>Comportamiento por defecto</td></tr>
+            <tr><td>Alta</td><td>0.7x</td><td>Más alertas, captura desviaciones menores</td></tr>
+          </tbody>
+        </table>
+
+        <h4>2. Contraparte Nueva (<code>new_counterparty</code>)</h4>
+        <p>Marca la primera transacción con una contraparte no vista previamente cuando el monto supera un umbral configurable (por defecto: CLP 100.000). La severidad escala con el monto:</p>
+        <ul>
+          <li><code>baja</code>: Monto &ge; umbral</li>
+          <li><code>media</code>: Monto &ge; 2x umbral</li>
+          <li><code>alta</code>: Monto &ge; 5x umbral</li>
+        </ul>
+
+        <h4>3. Sospecha de Duplicado (<code>duplicate_suspect</code>)</h4>
+        <p>Encuentra transacciones con monto y descripción normalizada idénticos dentro de una ventana de 3 días.</p>
+
+        <h4>Configuración</h4>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface AnomalyConfig {
+  lowThreshold: number            // Por defecto: 2.0
+  mediumThreshold: number         // Por defecto: 2.5
+  highThreshold: number           // Por defecto: 3.0
+  criticalThreshold: number       // Por defecto: 4.0
+  minSampleSize: number           // Por defecto: 10
+  lookbackDays: number            // Por defecto: 90
+  newCounterpartyAmountThreshold: number  // Por defecto: 100000 (CLP)
+}</code></pre>
+        </div>
+
+        <h3>Detección de Recurrencia</h3>
+        <p>El detector de recurrencia identifica patrones de transacciones repetitivas: suscripciones, depósitos de salario, pagos de arriendo, cuentas de servicios básicos.</p>
+
+        <h4>Algoritmo</h4>
+        <ol>
+          <li><strong>Agrupar transacciones</strong> por descripción normalizada y bucket de monto (bucketing logarítmico, 15% de varianza).</li>
+          <li><strong>Filtrar grupos</strong> con menos del mínimo de ocurrencias (por defecto: 3).</li>
+          <li><strong>Calcular intervalos</strong> entre transacciones consecutivas en cada grupo.</li>
+          <li><strong>Verificar regularidad.</strong> Si la desviación estándar de intervalos excede la varianza máxima (por defecto: 5 días), el grupo no es suficientemente regular.</li>
+          <li><strong>Detectar frecuencia</strong> desde el intervalo promedio:</li>
+        </ol>
+
+        <table>
+          <thead><tr><th>Intervalo Promedio</th><th>Frecuencia</th></tr></thead>
+          <tbody>
+            <tr><td>1&ndash;2 días</td><td>diaria</td></tr>
+            <tr><td>5&ndash;9 días</td><td>semanal</td></tr>
+            <tr><td>12&ndash;18 días</td><td>quincenal</td></tr>
+            <tr><td>25&ndash;35 días</td><td>mensual</td></tr>
+            <tr><td>85&ndash;100 días</td><td>trimestral</td></tr>
+            <tr><td>350&ndash;380 días</td><td>anual</td></tr>
+          </tbody>
+        </table>
+
+        <ol start="6">
+          <li><strong>Calcular confianza</strong> como score ponderado:</li>
+        </ol>
+        <div class="code-block">
+          <pre><code>confianza = score_regularidad &times; 0.5
+          + score_ocurrencias &times; 0.3
+          + score_consistencia_monto &times; 0.2
+
+Donde:
+  score_regularidad       = 1 - (stddev_intervalos / promedio_intervalos)
+  score_ocurrencias       = min(1, count_ocurrencias / 12)
+  score_consistencia      = 1 - (stddev_monto / promedio_monto)</code></pre>
+        </div>
+        <p>Los patrones con confianza bajo 0.7 se descartan.</p>
+
+        <ol start="7">
+          <li><strong>Predecir próxima ocurrencia</strong> sumando el intervalo promedio a la fecha de última ocurrencia.</li>
+        </ol>
+
+        <h4>Configuración</h4>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">interface RecurrenceConfig {
+  minOccurrences: number        // Por defecto: 3
+  maxIntervalVariance: number   // Por defecto: 5 días
+  amountVariancePercent: number // Por defecto: 15%
+  lookbackDays: number          // Por defecto: 180
+  minConfidence: number         // Por defecto: 0.7
+}</code></pre>
+        </div>
+
+        <h4>Ciclo de vida de patrones</h4>
+        <p>Los patrones detectados se almacenan como registros <code>RecurringPattern</code> con estado <code>active</code>. Cada transacción que coincide crea un registro <code>RecurringOccurrence</code>. El sistema también rastrea ocurrencias perdidas &mdash; habilitando alertas proactivas como "Tu suscripción de Netflix de $12.990 CLP se esperaba el 5 de marzo pero no ha llegado."</p>
+      </section>
+
+      <!-- 11 Posición en el Stack -->
+      <section class="wp-section reveal" id="posicion-en-el-stack">
+        <span class="section-num">11</span>
+        <h2>Posición en el Stack</h2>
+        <p>Habilitalo es la capa de integración y observación del ecosistema Digitalo. Se ubica en la frontera entre sistemas externos y el mesh de servicios interno.</p>
+        <div class="code-block">
+          <pre><code>+------------------------------------------------------------------+
+|                        MUNDO EXTERNO                              |
+|  Bancos (Fintoc)  |  CSVs  |  Manual  |  Futuro: SAT, SII, etc. |
++--------+---------+--------+----------+---------------------------+
+         |              |         |
+         v              v         v
++------------------------------------------------------------------+
+|                        HABILITALO                                 |
+|  Conectores  ->  Pipeline  ->  Libro   ->  Eventos  ->  Análisis |
+|  (protocolo)     (ingestar)    (partida   (webhooks)  (anomalía, |
+|                  (procesar)     doble)                  recurrencia)
++--------+---------------------------------------------------------+
+         |
+         v
++------------------------------------------------------------------+
+|                        SERVICIALO                                 |
+|  Service mesh, orquestación, comunicación inter-servicios         |
++--------+---------------------------------------------------------+
+         |
+         v
++------------------------------------------------------------------+
+|                        COMPENSALO                                 |
+|  Pagos, desembolsos, cobranzas                                    |
++--------+---------------------------------------------------------+
+         |
+         v
++------------------------------------------------------------------+
+|                        COORDINALO                                 |
+|  Agendamiento, agenda, citas                                      |
++--------+---------------------------------------------------------+
+         |
+         v
++------------------------------------------------------------------+
+|                        ACUMULALO                                  |
+|  Wallet, fidelización, puntos                                     |
++------------------------------------------------------------------+</code></pre>
+        </div>
+        <p>Los datos fluyen hacia adentro a través de Habilitalo: las fuentes externas empujan o son polleadas, los conectores transforman los datos, el pipeline los procesa, y los eventos notifican a los servicios downstream. Compensalo escucha <code>bank.movement.created</code> para conciliar pagos. Coordinalo escucha <code>analysis.recurrence.detected</code> para programar recordatorios.</p>
+        <blockquote><p>Habilitalo es extraíble. Corre como un módulo dentro de Balancealo hoy, pero el grafo de dependencias está diseñado para su futura extracción como servicio independiente.</p></blockquote>
+      </section>
+
+      <!-- 12 Implementación Técnica -->
+      <section class="wp-section reveal" id="implementacion-tecnica">
+        <span class="section-num">12</span>
+        <h2>Implementación Técnica</h2>
+
+        <h3>Stack Tecnológico</h3>
+        <ul>
+          <li><strong>Runtime:</strong> Next.js 15+ sobre Node.js</li>
+          <li><strong>Lenguaje:</strong> TypeScript 5 (modo estricto)</li>
+          <li><strong>Base de datos:</strong> PostgreSQL vía Supabase</li>
+          <li><strong>ORM:</strong> Prisma con migraciones</li>
+          <li><strong>Criptografía:</strong> Módulo <code>crypto</code> nativo de Node.js (SHA-256, HMAC-SHA256)</li>
+          <li><strong>Multi-tenancy:</strong> Basado en organizaciones con aislamiento de datos a nivel de fila</li>
+        </ul>
+
+        <h3>Estructura de Archivos</h3>
+        <div class="code-block">
+          <pre><code>src/lib/habilitalo/                           (~5.500 LOC)
+|-- index.ts                                  Exports centrales
+|-- README.md                                 Documentación del módulo
+|
+|-- protocol/                                 Protocolo de conectores
+|   |-- connector.ts                          Interfaz HabilitaloConnector
+|   |-- canonical-event.ts                    Esquema CanonicalEvent + helper
+|   |-- registry.ts                           ConnectorRegistry + bridge
+|   +-- index.ts                              Exports del protocolo
+|
+|-- events/                                   Sistema de eventos
+|   |-- HabilitaloEventEmitter.ts             Emisor core (HMAC, retry)
+|   |-- emitBankMovementCreated.ts            Constructor de evento
+|   |-- index.ts                              Exports de eventos
+|   +-- schemas/                              Definiciones de tipos de evento
+|       |-- BankMovementCreated.ts            bank.movement.created
+|       |-- AnomalyDetected.ts               analysis.anomaly.detected
+|       |-- RecurrenceDetected.ts            analysis.recurrence.detected
+|       +-- LedgerEntryCreated.ts            ledger.entry.created
+|
+|-- feeds/                                    Pipeline
+|   |-- index.ts                              Exports de feeds
+|   |-- types.ts                              Interfaces core
+|   |-- hash.ts                               Motor de dedup SHA-256
+|   |
+|   |-- pipeline/                             ETL de 3 etapas
+|   |   |-- ingest.ts                         Etapa 1: fuente -> RawEntry
+|   |   |-- validate.ts                       Validación de entrada + balance
+|   |   +-- processor.ts                      Etapa 2: RawEntry -> JournalEntry
+|   |
+|   |-- sources/                              Implementaciones de conectores
+|   |   |-- base.ts                           Interfaz SourceAdapter + registry
+|   |   |-- fintoc.ts                         Adapter Fintoc
+|   |   |-- fintoc/habilitalo.connector.json  Manifiesto Fintoc
+|   |   |-- csv.ts                            Adapter CSV
+|   |   |-- csv/habilitalo.connector.json     Manifiesto CSV
+|   |   |-- manual.ts                         Adapter Manual
+|   |   +-- manual/habilitalo.connector.json  Manifiesto Manual
+|   |
+|   |-- ledger/                               Contabilidad partida doble
+|   |   |-- journal.ts                        CRUD, anulación, consultas
+|   |   +-- balance.ts                        Balance por naturaleza de cuenta
+|   |
+|   +-- analysis/                             Motores de análisis
+|       |-- types.ts                           Config + tipos de resultado
+|       |-- anomaly-detector.ts               Detección de anomalías Z-score
+|       |-- recurrence-detector.ts            Detección de patrones
+|       +-- index.ts                          Exports de análisis
+|
++-- integrations/                             Orquestadores de terceros
+    +-- fintoc/
+        +-- sync-incremental.ts               Sync incremental 24 meses</code></pre>
+        </div>
+
+        <h3>Superficie de API</h3>
+        <ul>
+          <li><strong>Gestión de webhooks:</strong> <code>POST/GET /api/habilitalo/webhooks</code></li>
+          <li><strong>Inspección de entregas:</strong> <code>GET /api/habilitalo/webhooks/:id/deliveries</code></li>
+          <li><strong>Operaciones de feed:</strong> Varias rutas bajo <code>/api/v1/feeds/</code></li>
+          <li><strong>Consultas al libro mayor:</strong> Rutas bajo <code>/api/v1/ledger/</code></li>
+          <li><strong>Disparadores de sync:</strong> Rutas cron job para sincronización Fintoc</li>
+        </ul>
+
+        <h3>Multi-Tenancy</h3>
+        <p>Cada registro en el sistema pertenece a una organización. El <code>organizationId</code> está presente en: <code>DataFeed</code>, <code>RawEntry</code>, <code>JournalEntry</code>, <code>JournalLine</code>, <code>Anomaly</code>, <code>RecurringPattern</code>, <code>WebhookEndpoint</code>, <code>WebhookDelivery</code>.</p>
+        <p>La restricción de deduplicación está scoped a la organización: <code>UNIQUE(organizationId, entryHash)</code>. Dos organizaciones pueden tener transacciones idénticas sin colisión.</p>
+      </section>
+
+      <!-- 13 Gobernanza -->
+      <section class="wp-section reveal" id="gobernanza">
+        <span class="section-num">13</span>
+        <h2>Gobernanza</h2>
+
+        <h3>Licencia</h3>
+        <p>La especificación del protocolo Habilitalo y la implementación de referencia serán publicadas bajo la <strong>Licencia MIT</strong>. Esto significa:</p>
+        <ul>
+          <li>Cualquiera puede construir un conector sin pedir permiso.</li>
+          <li>Cualquiera puede correr el pipeline en su propia infraestructura.</li>
+          <li>Cualquiera puede hacer fork, modificar y redistribuir.</li>
+          <li>No hay un tier "premium" del protocolo. El protocolo completo es abierto.</li>
+        </ul>
+
+        <h3>Registry Abierto</h3>
+        <p>Planeamos mantener un registry abierto de conectores comunitarios en habilitalo.com. Enviar un conector requiere:</p>
+        <ol>
+          <li>Un manifiesto <code>habilitalo.connector.json</code>.</li>
+          <li>Una función de transformación que pase la validación (chequeo de tipos input/output).</li>
+          <li>Al menos un par de ejemplo input/output para testing.</li>
+        </ol>
+        <p>El registry es un catálogo, no una puerta. Si tu conector cumple los requisitos de interfaz, se lista.</p>
+
+        <h3>Auto-Hosteable</h3>
+        <p>El pipeline y el sistema de eventos están diseñados para correr en cualquier despliegue PostgreSQL + Node.js. No hay dependencia de servicios cloud propietarios más allá de lo que usa la aplicación host (Balancealo). El esquema Prisma define todas las tablas requeridas, y las migraciones son versionadas y portables.</p>
+
+        <h3>Calidad de Conectores</h3>
+        <p>Distinguimos tres niveles de calidad de conectores:</p>
+        <ul>
+          <li><strong>Fundacionales:</strong> Construidos y mantenidos por el equipo Habilitalo. Actualmente: Fintoc, CSV, Manual.</li>
+          <li><strong>Verificados:</strong> Construidos por la comunidad, revisados por el equipo Habilitalo por corrección y seguridad.</li>
+          <li><strong>Comunitarios:</strong> Auto-publicados. Sin revisión. Usar a discreción propia.</li>
+        </ul>
+
+        <h3>Versionamiento</h3>
+        <ul>
+          <li>La versión del protocolo sigue semver. La versión actual es <code>0.1</code>.</li>
+          <li>Los manifiestos de conector declaran la versión del protocolo que apuntan (<code>"habilitalo": "0.1"</code>).</li>
+          <li>Los esquemas de evento se versionan independientemente.</li>
+          <li>Los breaking changes incrementarán la versión mayor del protocolo.</li>
+        </ul>
+      </section>
+
+      <!-- 14 Hoja de Ruta -->
+      <section class="wp-section reveal" id="hoja-de-ruta">
+        <span class="section-num">14</span>
+        <h2>Hoja de Ruta</h2>
+
+        <h3>v0.1 &mdash; Actual (Implementado)</h3>
+        <p>Todo lo descrito en este documento está implementado y desplegado:</p>
+        <ul>
+          <li>Interfaz HabilitaloConnector y ConnectorContext</li>
+          <li>Esquema CanonicalEvent con helper createCanonicalEvent</li>
+          <li>ConnectorRegistry con bridgeAdapterToConnector</li>
+          <li>Pipeline de 3 etapas: ingestar, procesar, analizar</li>
+          <li>3 conectores fundacionales: Fintoc, CSV, Manual</li>
+          <li>Sistema de eventos con HMAC-SHA256, entrega al-menos-una-vez, 3 reintentos con backoff exponencial</li>
+          <li>4 tipos de evento</li>
+          <li>Libro de partida doble con validación de balance, naturaleza de cuenta, anulación/reversión</li>
+          <li>Detector de anomalías: Z-score, contraparte nueva, detección de sospecha de duplicado</li>
+          <li>Detector de recurrencia: análisis de intervalos, clasificación de frecuencia, scoring de confianza</li>
+          <li>Sync incremental Fintoc de 24 meses con chunks reanudables</li>
+          <li>API de gestión de webhooks</li>
+          <li>Aislamiento multi-tenant con deduplicación scoped por organización</li>
+        </ul>
+
+        <h3>v0.2 &mdash; Siguiente (Planeado)</h3>
+        <ul>
+          <li><strong>UI de conectores:</strong> Gestión visual de conectores en el dashboard de Balancealo.</li>
+          <li><strong>Conectores adicionales:</strong> SII chileno, templates CSV por banco, wizard de mapeo manual de columnas.</li>
+          <li><strong>Endpoints de API de análisis:</strong> Endpoints REST para detección de anomalías/recurrencias on-demand.</li>
+          <li><strong>Cobertura de tests:</strong> Tests unitarios para cálculo de hash, transforms de adapter, validación de balance.</li>
+          <li><strong>Connector SDK:</strong> Herramienta CLI para scaffoldear un nuevo conector (<code>npx habilitalo init my-connector</code>).</li>
+          <li><strong>Documentación del protocolo:</strong> Spec OpenAPI, JSON Schema para eventos y manifiestos.</li>
+        </ul>
+
+        <h3>v0.3 &mdash; Futuro (Considerado)</h3>
+        <ul>
+          <li><strong>Marketplace de conectores:</strong> Registry público con búsqueda, documentación e instalación.</li>
+          <li><strong>Conectores operativos y comerciales:</strong> CRM, ERP, inventario, facturación electrónica, plataformas de e-commerce.</li>
+          <li><strong>Pipeline streaming:</strong> Reemplazar procesamiento batch con streaming event-driven.</li>
+          <li><strong>Conectores cross-organización:</strong> Transferencias inter-empresa y conciliación.</li>
+          <li><strong>Categorización con IA:</strong> Categorización de datos basada en LLM como etapa del pipeline.</li>
+          <li><strong>Extracción del protocolo:</strong> Extraer en un paquete npm standalone y servicio independiente.</li>
+        </ul>
+      </section>
+
+      <!-- 15 Apéndice A -->
+      <section class="wp-section reveal" id="apendice-a">
+        <span class="section-num">15</span>
+        <h2>Apéndice A: Esquema del Manifiesto de Conector</h2>
+        <p>Cada conector viene con un archivo <code>habilitalo.connector.json</code> que declara sus capacidades:</p>
+        <div class="code-block">
+          <span class="code-lang">JSON</span>
+          <pre><code data-lang="json">{
+  "id": "string",
+  "name": "string",
+  "version": "string (semver)",
+  "category": "string",
+  "tags": ["string"],
+  "inbound": {
+    "transport": "webhook | file | manual | api_poll",
+    "events": ["string"]
+  },
+  "outbound": {
+    "events": ["string"]
+  },
+  "auth": {
+    "type": "api_key | oauth2 | link_token | none",
+    "requiredFields": ["string"]
+  },
+  "habilitalo": "string (versión del protocolo)"
+}</code></pre>
+        </div>
+
+        <h4>Descripción de campos</h4>
+        <table>
+          <thead><tr><th>Campo</th><th>Requerido</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>Sí</td><td>Identificador único del conector. Convención: <code>{fuente}-v{mayor}</code></td></tr>
+            <tr><td><code>name</code></td><td>Sí</td><td>Nombre legible del conector</td></tr>
+            <tr><td><code>version</code></td><td>Sí</td><td>Versión semver de este conector</td></tr>
+            <tr><td><code>category</code></td><td>Sí</td><td>Categoría amplia: <code>financial</code>, <code>commerce</code>, <code>tax</code>, <code>custom</code></td></tr>
+            <tr><td><code>tags</code></td><td>No</td><td>Tags buscables para descubrimiento en el registry</td></tr>
+            <tr><td><code>inbound.transport</code></td><td>Sí</td><td>Cómo entran los datos al conector</td></tr>
+            <tr><td><code>inbound.events</code></td><td>Sí</td><td>Tipos de evento de la fuente que maneja este conector</td></tr>
+            <tr><td><code>outbound.events</code></td><td>Sí</td><td>Tipos de evento canónico que emite este conector</td></tr>
+            <tr><td><code>auth.type</code></td><td>Sí</td><td>Mecanismo de autenticación requerido</td></tr>
+            <tr><td><code>auth.requiredFields</code></td><td>No</td><td>Nombres de campos de credencial (para generación de UI)</td></tr>
+            <tr><td><code>habilitalo</code></td><td>Sí</td><td>Versión del protocolo que apunta este manifiesto</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 16 Apéndice B -->
+      <section class="wp-section reveal" id="apendice-b">
+        <span class="section-num">16</span>
+        <h2>Apéndice B: Referencia de Tipos de Evento</h2>
+
+        <h3>bank.movement.created</h3>
+        <p>Se emite cuando el procesador del pipeline crea un JournalEntry desde un movimiento bancario.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">{
+  eventType: 'bank.movement.created',
+  eventId: string,       // UUIDv4
+  source: 'habilitalo',
+  timestamp: string,     // ISO8601
+  data: {
+    movementId: string,
+    accountId: string,
+    institutionId: string,
+    amount: number,
+    currency: string,
+    date: string,                // ISO8601
+    description: string,
+    counterparty: string | null,
+    type: 'credit' | 'debit',
+    category: string | null,
+    categoryId: string | null,
+    categorySource: string | null,
+    rawFintocId: string,
+    journalEntryId: string
+  }
+}</code></pre>
+        </div>
+
+        <h3>analysis.anomaly.detected</h3>
+        <p>Se emite cuando el detector de anomalías marca una transacción.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">{
+  eventType: 'analysis.anomaly.detected',
+  eventId: string,
+  source: 'habilitalo',
+  timestamp: string,
+  data: {
+    anomalyId: string,
+    journalLineId: string,
+    type: 'unusual_amount' | 'unusual_frequency'
+        | 'new_counterparty' | 'duplicate_suspect',
+    severity: 'low' | 'medium' | 'high' | 'critical',
+    title: string,
+    description: string,
+    detectedValue: number,
+    expectedValue: number | null,
+    deviation: number | null,
+    context: {
+      mean?: number,
+      stdDev?: number,
+      zScore?: number,
+      threshold?: number,
+      categoryAvg?: number,
+      categoryMax?: number,
+      similarTransactionsCount?: number
+    }
+  }
+}</code></pre>
+        </div>
+
+        <h3>analysis.recurrence.detected</h3>
+        <p>Se emite cuando el detector de recurrencia identifica o actualiza un patrón.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">{
+  eventType: 'analysis.recurrence.detected',
+  eventId: string,
+  source: 'habilitalo',
+  timestamp: string,
+  data: {
+    patternId: string,
+    name: string,
+    frequency: 'daily' | 'weekly' | 'biweekly'
+             | 'monthly' | 'quarterly' | 'yearly' | 'custom',
+    intervalDays: number,
+    expectedAmount: number,
+    amountVariance: number,
+    currency: string,
+    matchPattern: string,
+    counterparty: string | null,
+    categoryId: string | null,
+    confidence: number,         // 0.0 a 1.0
+    occurrenceCount: number,
+    firstOccurrence: string,    // ISO8601
+    lastOccurrence: string,     // ISO8601
+    nextExpected: string,       // ISO8601
+    status: 'active' | 'paused' | 'ended'
+  }
+}</code></pre>
+        </div>
+
+        <h3>ledger.entry.created</h3>
+        <p>Se emite cuando un JournalEntry se postea al libro mayor.</p>
+        <div class="code-block">
+          <span class="code-lang">TypeScript</span>
+          <pre><code data-lang="ts">{
+  eventType: 'ledger.entry.created',
+  eventId: string,
+  source: 'habilitalo',
+  timestamp: string,
+  data: {
+    journalEntryId: string,
+    entryNumber: number,
+    description: string,
+    transactionDate: string,
+    postDate: string,
+    status: 'draft' | 'posted' | 'voided',
+    sourceType: string | null,
+    sourceRef: string | null,
+    lines: Array&lt;{
+      lineId: string,
+      accountId: string,
+      entryType: 'debit' | 'credit',
+      amount: number,
+      currency: string,
+      description: string | null,
+      counterparty: string | null,
+      categoryId: string | null
+    }&gt;
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- 17 Apéndice C -->
+      <section class="wp-section reveal" id="apendice-c">
+        <span class="section-num">17</span>
+        <h2>Apéndice C: Flujo de Datos del Pipeline</h2>
+        <p>Una traza completa de un solo movimiento Fintoc a través del sistema:</p>
+        <div class="code-block">
+          <pre><code>1. API FINTOC
+   GET /accounts/{id}/movements?since=2026-01-01&amp;until=2026-01-31
+   Retorna: FintocMovement {
+     id: "mov_abc123",
+     amount: -45000,
+     currency: "CLP",
+     description: "COMPRA SUPERMERCADO LIDER",
+     post_date: "2026-01-15",
+     recipient_account: { holder_name: "WALMART CHILE SA" }
+   }
+
+2. ADAPTER FINTOC (transform)
+   FintocMovement -> RawEntryInput {
+     transactionDate: 2026-01-15,
+     amount: -45000,
+     currency: "CLP",
+     description: "COMPRA SUPERMERCADO LIDER",
+     counterparty: "WALMART CHILE SA",
+     sourceId: "mov_abc123",
+     rawData: { ...FintocMovement original }
+   }
+
+3. ETAPA DE INGESTIÓN
+   a. Validar: amount != 0, fecha válida, descripción presente     [PASA]
+   b. Normalizar: date="2026-01-15", amount="45000.00",
+      description="compra supermercado lider"
+   c. Hash: SHA-256("2026-01-15|45000.00|{accountId}|
+      compra supermercado lider") = "a1b2c3..."
+   d. Verificar existente: SELECT * FROM RawEntry
+      WHERE organizationId=? AND entryHash="a1b2c3..."         [NO ENCONTRADO]
+   e. Crear: INSERT INTO RawEntry (status='pending', ...)
+
+4. ETAPA DE PROCESAMIENTO
+   a. Obtener: SELECT * FROM RawEntry WHERE status='pending'
+   b. Marcar: UPDATE RawEntry SET status='processing'
+   c. Determinar tipo: amount &lt; 0 -> gasto
+   d. Crear JournalEntry:
+      Línea 1: DÉBITO  {accountId} $45.000 CLP "Gasto"
+      Línea 2: CRÉDITO {accountId} $45.000 CLP
+               "COMPRA SUPERMERCADO LIDER" contraparte="WALMART CHILE SA"
+   e. Validar balance: débito(45000) == crédito(45000)            [PASA]
+   f. INSERT JournalEntry + JournalLines
+   g. UPDATE RawEntry SET status='processed', journalEntryId=...
+
+5. EMISIÓN DE EVENTOS (fire-and-forget)
+   a. Construir payload BankMovementCreatedEvent
+   b. Encontrar WebhookEndpoints suscritos
+   c. Para cada endpoint:
+      - CREATE WebhookDelivery (al-menos-una-vez)
+      - Firmar payload con HMAC-SHA256
+      - POST a endpoint.url con header de firma
+      - Si 2xx: marcar como entregado
+      - Si 5xx/timeout: reintentar (1s, 4s, 16s)
+      - Si 4xx (!429): detener, marcar como fallido
+
+6. ANÁLISIS (asincrónico)
+   a. Detector de anomalías:
+      - Stats categoría "supermercado": media=38000, stddev=8000
+      - Z-score: |45000 - 38000| / 8000 = 0.875 &lt; umbral 2.0
+      - Resultado: NO anómalo
+   b. Detector de recurrencia:
+      - Grupo "compra supermercado lider|bucket_X" ahora tiene 4 ocurrencias
+      - Intervalos: [7, 7, 8] días -> prom=7.33, stddev=0.47
+      - Frecuencia: semanal
+      - Confianza: 0.94 * 0.5 + 0.33 * 0.3 + 0.98 * 0.2 = 0.77
+      - Resultado: RecurringPattern creado/actualizado</code></pre>
+        </div>
+      </section>
+
+      <!-- Cierre -->
+      <section class="wp-section reveal" id="cierre">
+        <span class="section-num">&bull;</span>
+        <h2>Cierre</h2>
+        <p>Habilitalo existe porque lo necesitábamos. Estábamos construyendo Balancealo y nos encontramos escribiendo el mismo código de integración para cada fuente &mdash; el mismo parsing de fechas, la misma normalización de montos, la misma lógica de dedup, el mismo posteo al libro mayor. Extrajimos el patrón en un protocolo porque los protocolos componen y las librerías no.</p>
+        <p>La implementación actual son 5.500 líneas de TypeScript, 24 archivos, 3 conectores, 4 tipos de evento y 2 motores de análisis. No es un juguete. Procesa movimientos bancarios reales de bancos chilenos reales para usuarios reales. Pero tampoco está completo. No hay UI. No hay suficientes conectores. La cobertura de tests necesita trabajo. Los motores de análisis necesitan endpoints de API.</p>
+        <p>Publicamos este whitepaper y la especificación del protocolo para invitar a otros a construir sobre él. Si tienes una fuente de datos que no tiene un conector Habilitalo, escribe uno. Si al pipeline le falta una feature que necesitas, proponla. Si el diseño del protocolo tiene una falla, dínoslo.</p>
+        <blockquote><p>El objetivo no es construir otra plataforma. Es hacer de la integración de datos &mdash; financieros, operativos y comerciales &mdash; un problema resuelto: un protocolo que cualquiera pueda implementar, un pipeline que cualquiera pueda correr, y un registry al que cualquiera pueda contribuir.</p></blockquote>
+
+        <hr>
+        <p style="font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-align: center;">
+          Protocolo Habilitalo v0.1 &mdash; Marzo 2026<br>
+          Franco Danioni &mdash; Digitalo SpA &mdash; habilitalo.com<br>
+          Licencia MIT
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // === Scroll Spy ===
+    (function() {
+      var sections = document.querySelectorAll('.wp-section[id]');
+      var navLinks = document.querySelectorAll('.sidebar-nav a');
+      var current = '';
+
+      function updateActive() {
+        var scrollY = window.scrollY + 120;
+        sections.forEach(function(section) {
+          if (section.offsetTop <= scrollY) {
+            current = section.id;
+          }
+        });
+        navLinks.forEach(function(link) {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateActive, { passive: true });
+      updateActive();
+    })();
+
+    // === Mobile Menu ===
+    (function() {
+      var toggle = document.getElementById('menuToggle');
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebarOverlay');
+
+      function close() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+
+      toggle.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      });
+
+      overlay.addEventListener('click', close);
+
+      document.querySelectorAll('.sidebar-nav a').forEach(function(link) {
+        link.addEventListener('click', close);
+      });
+    })();
+
+    // === Reveal on Scroll ===
+    (function() {
+      var els = document.querySelectorAll('.reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      els.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // === Syntax Highlighting ===
+    (function() {
+      var KW = new Set([
+        'const','let','var','function','interface','type','return','if','else',
+        'for','switch','case','import','export','new','async','await','extends',
+        'implements','class','enum','readonly','private','public','protected',
+        'static','typeof','keyof','in','of','from','default','break','continue',
+        'throw','try','catch','finally','while','do','yield','delete','instanceof',
+        'super','this','void','true','false','null','undefined'
+      ]);
+      var TY = new Set([
+        'string','number','boolean','any','unknown','never','object','symbol',
+        'bigint','Record','Array','Promise','Date','Map','Set','Partial',
+        'Required','Pick','Omit','Readonly','NonNullable','void'
+      ]);
+
+      function esc(c) {
+        return c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '&' ? '&amp;' : c;
+      }
+
+      document.querySelectorAll('pre code[data-lang]').forEach(function(el) {
+        var text = el.textContent;
+        var html = '';
+        var i = 0;
+        var len = text.length;
+
+        while (i < len) {
+          if (text[i] === '/' && text[i+1] === '/') {
+            var end = text.indexOf('\n', i);
+            if (end === -1) end = len;
+            var cm = '';
+            for (var j = i; j < end; j++) cm += esc(text[j]);
+            html += '<span class="hl-cm">' + cm + '</span>';
+            i = end;
+          }
+          else if (text[i] === "'" || text[i] === '"') {
+            var q = text[i];
+            var s = esc(text[i]);
+            var k = i + 1;
+            while (k < len && text[k] !== q && text[k] !== '\n') {
+              if (text[k] === '\\' && k + 1 < len) { s += esc(text[k]) + esc(text[k+1]); k += 2; }
+              else { s += esc(text[k]); k++; }
+            }
+            if (k < len && text[k] === q) { s += esc(text[k]); k++; }
+            html += '<span class="hl-st">' + s + '</span>';
+            i = k;
+          }
+          else if (/[a-zA-Z_$]/.test(text[i])) {
+            var w = '';
+            var m = i;
+            while (m < len && /[\w$]/.test(text[m])) { w += text[m]; m++; }
+            if (KW.has(w)) html += '<span class="hl-kw">' + w + '</span>';
+            else if (TY.has(w)) html += '<span class="hl-ty">' + w + '</span>';
+            else html += w;
+            i = m;
+          }
+          else if (/\d/.test(text[i]) && (i === 0 || !/[\w]/.test(text[i-1]))) {
+            var n = '';
+            var p = i;
+            while (p < len && /[\d.]/.test(text[p])) { n += text[p]; p++; }
+            html += '<span class="hl-nu">' + n + '</span>';
+            i = p;
+          }
+          else {
+            html += esc(text[i]);
+            i++;
+          }
+        }
+
+        el.innerHTML = html;
+      });
+    })();
+  </script>
+
+</body>
+</html>
